@@ -17,8 +17,8 @@
 * Nested
 * Grid
 * Responsive и adaptive
-* JavaSript
+* JavaScript
 * DOM
 
 **Публикация проекта**
-Проект опубликован на [GitHub Pages](https://).
+Проект опубликован на [GitHub Pages](https://mmsnegova.github.io/mesto/).
