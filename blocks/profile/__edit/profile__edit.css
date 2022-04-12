@@ -1,0 +1,32 @@
+.profile__edit {
+  margin: 0;
+  padding: 6px;
+  background: none;
+  border: 1px solid #FFFFFF;
+  box-shadow: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: -42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.profile__edit:hover {
+  opacity: 0.6;
+}
+
+@media (max-width: 767px) {
+  .profile__edit {
+    padding: 4.25px;
+    top: 6px;
+    right: -28px;
+    width: 18px;
+    height: 18px;
+  }
+}
