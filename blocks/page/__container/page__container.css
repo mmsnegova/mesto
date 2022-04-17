@@ -6,6 +6,6 @@
 
 @media (max-width: 767px) {
   .page__container {
-    padding: 0 19px;
+    padding: 0;
   }
 }

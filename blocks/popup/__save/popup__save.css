@@ -9,8 +9,19 @@
   color: white;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  font-size: 18px;
+  line-height: 22px;
 }
 
 .popup__save:hover {
   opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .popup__save {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

@@ -4,11 +4,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 }
 
 
 @media (max-width: 767px) {
   .profile {
+    padding-left: 19px;
+    padding-right: 19px;
     padding-top: 38.25px;
     flex-direction: column;
   }

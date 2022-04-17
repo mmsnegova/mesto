@@ -4,7 +4,6 @@
 
 @media (max-width: 767px) {
   .gallery {
-    padding-top: 36px;
-    padding-bottom: 48px;
+    padding: 36px 19px 48px;
   }
 }

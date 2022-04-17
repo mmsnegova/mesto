@@ -12,11 +12,8 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
-  position: absolute;
-  top: 14px;
-  right: -42px;
   display: flex;
-  align-items: center;
+  align-self: center;
   justify-content: center;
   transition: opacity 0.3s ease;
 }
@@ -28,8 +25,6 @@
 @media (max-width: 767px) {
   .profile__edit {
     background-size: 7px 7px;
-    top: 6px;
-    right: -28px;
     width: 18px;
     height: 18px;
   }
