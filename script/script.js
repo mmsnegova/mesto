@@ -8,9 +8,9 @@ const nameProfile = document.querySelector('.profile__name');
 const jobProfile = document.querySelector('.profile__job');
 
 function popupOpenAdd() {
-  popup.classList.add('popup_opened');
   nameInput.value=nameProfile.textContent;
   jobInput.value=jobProfile.textContent;
+  popup.classList.add('popup_opened');
 }
 
 function popupOpenRemove() {
