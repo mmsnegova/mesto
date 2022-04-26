@@ -34,8 +34,8 @@ const galleryCardTemlate = document
   .content.querySelector('.gallery__item');
 
 //ДОМ элементы
-
 //попап редактирования профиля
+
 const openPopupEditButton = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_edit');
 const popupEditCloseButton = popupEdit.querySelector('.popup__close');
@@ -55,17 +55,13 @@ const linkInput  = formAdd.querySelector('.popup__second-input_link');
 
 
 //контейнер для вставки
+
 const galleryConteiner = document.querySelector('.gallery__list');
 
-//открытие и закрытие формы редактирования профиля
+//открытие и закрытие формы
 
-function popupEditToggle() {
-  if (!popupEdit.classList.contains('popup_opened')) {
-    nameInput.value=nameProfile.textContent;
-    jobInput.value=jobProfile.textContent;
-  }
-
-  popupEdit.classList.toggle('popup_opened');
+function popupToggle(popup) {
+  popup.classList.toggle('popup_opened');
 }
 
 //редактирование информации о себе
@@ -74,12 +70,7 @@ function formSubmitHandler(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
-  popupEditToggle();
-}
-
-//открытие и закрытие формы добавления карточки
-function popupAddToggle() {
-  popupAdd.classList.toggle('popup_opened');
+  popupToggle(popupEdit);
 }
 
 //генерация карточки
@@ -106,8 +97,37 @@ initialCards.forEach((galleryCard) => {
   renderGalleryCard(galleryCard);
 });
 
-openPopupEditButton.addEventListener('click', popupEditToggle);
-popupEditCloseButton.addEventListener('click', popupEditToggle);
-openPopupAddButton.addEventListener('click', popupAddToggle);
-popupAddCloseButton.addEventListener('click', popupAddToggle);
+
+//ОБРАБОТЧИКИ СОБЫТИЙ
+//обработчик нажатия на кнопку Реадактировать
+
+openPopupEditButton.addEventListener('click', ()=>{
+  if (!popupEdit.classList.contains('popup_opened')) {
+    nameInput.value=nameProfile.textContent;
+    jobInput.value=jobProfile.textContent;
+  }
+  popupToggle(popupEdit);
+}
+);
+
+//обработчик нажатия на кнопку закрыть редактирование профиля
+
+popupEditCloseButton.addEventListener('click', ()=>{
+  popupToggle(popupEdit);
+});
+
+//обработчик нажатия на кнопку Добавить
+
+openPopupAddButton.addEventListener('click', ()=>{
+  popupToggle(popupAdd);
+});
+
+//обработчик нажатия на кнопку закрыть форму добаления карточки
+
+popupAddCloseButton.addEventListener('click', ()=>{
+  popupToggle(popupAdd);
+});
+
+//обработчик отправки данных с формы редактирования
+
 formEdit.addEventListener('submit', formSubmitHandler);
