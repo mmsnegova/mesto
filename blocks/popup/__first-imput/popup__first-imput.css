@@ -1,15 +1,13 @@
-.popup__job {
+.popup__first-imput {
   border: none;
   border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-  margin: 0 0 48px;
+  margin: 0 0 30px;
   padding: 0;
   width: 100%;
-  font-style: normal;
-  font-weight: 400;
   font-size: 14px;
   line-height: 27px;
 }
 
-.popup__job:focus {
+.popup__first-imput:focus {
   outline: none;
 }
