@@ -66,12 +66,23 @@ function popupToggle(popup) {
 
 //редактирование информации о себе
 
-function formSubmitHandler(evt) {
+function formSubmitHandlerEdit(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   popupToggle(popupEdit);
 }
+
+//добавление новой карточки
+const formSubmitHandlerAdd = (evt)=> {
+  evt.preventDefault();
+  renderGalleryCard(
+    {name: nameIPlaceInpute.value,
+    link: linkInput.value}
+  );
+  popupToggle(popupAdd);
+};
+
 
 //генерация карточки
 
@@ -130,4 +141,7 @@ popupAddCloseButton.addEventListener('click', ()=>{
 
 //обработчик отправки данных с формы редактирования
 
-formEdit.addEventListener('submit', formSubmitHandler);
+formEdit.addEventListener('submit', formSubmitHandlerEdit);
+
+//обработчик отправки данных с формы добавления карточек
+formAdd.addEventListener('submit', formSubmitHandlerAdd);
