@@ -83,6 +83,10 @@ const formSubmitHandlerAdd = (evt)=> {
   popupToggle(popupAdd);
 };
 
+const handlerDeleteGallaryCard = (evt) => {
+  evt.target.closest('.gallery__item').remove();
+}
+
 //добавление лайка на карточку
 const handlerLikeGallaryCard =(evt)=>{
   evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
@@ -100,8 +104,11 @@ const generateGalleryCard = (galleryCard) => {
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
   imageGalleryCard.setAttribute('style', `background-image:url(${galleryCard.link})`);
 
+  const deleteButton = newGalleryCard.querySelector('.gallery__delete');
+  deleteButton.addEventListener('click', handlerDeleteGallaryCard);
+
   const likeButton = newGalleryCard.querySelector('.gallery__like');
-  likeButton.addEventListener('click', handlerLikeGallaryCard)
+  likeButton.addEventListener('click', handlerLikeGallaryCard);
 
   return newGalleryCard;
 }
