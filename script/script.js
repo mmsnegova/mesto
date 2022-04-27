@@ -53,6 +53,11 @@ const formAdd = popupAdd.querySelector('.popup__body');
 const nameIPlaceInpute = formAdd.querySelector('.popup__first-imput_place-name');
 const linkInput  = formAdd.querySelector('.popup__second-input_link');
 
+//попап с картинкой
+const popupView = document.querySelector('.popup_view');
+const popupViewCloseButton = popupView.querySelector('.popup__close');
+const popupViewImage = popupView.querySelector('.popup__image');
+const popupViewSubtitle = popupView.querySelector('.popup__subtitle');
 
 //контейнер для вставки
 
@@ -83,6 +88,7 @@ const formSubmitHandlerAdd = (evt)=> {
   popupToggle(popupAdd);
 };
 
+//удаление карточки
 const handlerDeleteGallaryCard = (evt) => {
   evt.target.closest('.gallery__item').remove();
 }
@@ -92,6 +98,12 @@ const handlerLikeGallaryCard =(evt)=>{
   evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
 }
 
+//открытие попапа с картинкой
+const handlerViewImageGallaryCard = (name, link)=> {
+  popupViewImage.setAttribute('src', link);
+  popupViewSubtitle.textContent = name;
+  popupToggle(popupView);
+}
 
 //генерация карточки
 
@@ -103,12 +115,16 @@ const generateGalleryCard = (galleryCard) => {
 
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
   imageGalleryCard.setAttribute('style', `background-image:url(${galleryCard.link})`);
+  imageGalleryCard.addEventListener('click', ()=>{
+    handlerViewImageGallaryCard(galleryCard.name, galleryCard.link)}
+  );
 
   const deleteButton = newGalleryCard.querySelector('.gallery__delete');
   deleteButton.addEventListener('click', handlerDeleteGallaryCard);
 
   const likeButton = newGalleryCard.querySelector('.gallery__like');
   likeButton.addEventListener('click', handlerLikeGallaryCard);
+
 
   return newGalleryCard;
 }
@@ -163,3 +179,9 @@ formEdit.addEventListener('submit', formSubmitHandlerEdit);
 
 //обработчик отправки данных с формы добавления карточек
 formAdd.addEventListener('submit', formSubmitHandlerAdd);
+
+
+//закрытие попапа с картинкой
+popupViewCloseButton.addEventListener('click', ()=>{
+  popupToggle(popupView);
+});
