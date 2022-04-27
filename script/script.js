@@ -83,6 +83,11 @@ const formSubmitHandlerAdd = (evt)=> {
   popupToggle(popupAdd);
 };
 
+//добавление лайка на карточку
+const handlerLikeGallaryCard =(evt)=>{
+  evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
+}
+
 
 //генерация карточки
 
@@ -94,6 +99,9 @@ const generateGalleryCard = (galleryCard) => {
 
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
   imageGalleryCard.setAttribute('style', `background-image:url(${galleryCard.link})`);
+
+  const likeButton = newGalleryCard.querySelector('.gallery__like');
+  likeButton.addEventListener('click', handlerLikeGallaryCard)
 
   return newGalleryCard;
 }
@@ -107,11 +115,6 @@ const renderGalleryCard = (galleryCard)=>{
 for (index = initialCards.length - 1; index > -1; --index){
   renderGalleryCard(initialCards[index]);
 }
-
-/*initialCards.forEach((galleryCard) => {
-  renderGalleryCard(galleryCard);
-});*/
-
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 //обработчик нажатия на кнопку Реадактировать

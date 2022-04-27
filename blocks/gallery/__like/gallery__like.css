@@ -18,8 +18,3 @@
 .gallery__like:hover {
   opacity: 0.5;
 }
-
-.gallery__like:active {
-  background-image: url(../../../images/Like-active.svg);
-  opacity: 1;
-}
