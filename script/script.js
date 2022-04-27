@@ -101,12 +101,16 @@ const generateGalleryCard = (galleryCard) => {
 //рендер карточки
 
 const renderGalleryCard = (galleryCard)=>{
-  galleryConteiner.append(generateGalleryCard(galleryCard));
+  galleryConteiner.prepend(generateGalleryCard(galleryCard));
 }
 
-initialCards.forEach((galleryCard) => {
+for (index = initialCards.length - 1; index > -1; --index){
+  renderGalleryCard(initialCards[index]);
+}
+
+/*initialCards.forEach((galleryCard) => {
   renderGalleryCard(galleryCard);
-});
+});*/
 
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
@@ -130,6 +134,10 @@ popupEditCloseButton.addEventListener('click', ()=>{
 //обработчик нажатия на кнопку Добавить
 
 openPopupAddButton.addEventListener('click', ()=>{
+  if (!popupAdd.classList.contains('popup_opened')) {
+    nameIPlaceInpute.value='';
+    linkInput.value='';
+  }
   popupToggle(popupAdd);
 });
 
