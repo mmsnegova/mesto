@@ -94,15 +94,17 @@ const handlerDeleteGallaryCard = (evt) => {
 }
 
 //добавление лайка на карточку
-const handlerLikeGallaryCard =(evt)=>{
+const handlerLikeGallaryCard = (evt)=>{
   evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
 }
 
 //открытие попапа с картинкой
+
 const handlerViewImageGallaryCard = (name, link)=> {
   popupViewImage.setAttribute('src', link);
   popupViewSubtitle.textContent = name;
   popupToggle(popupView);
+
 }
 
 //генерация карточки
@@ -115,8 +117,11 @@ const generateGalleryCard = (galleryCard) => {
 
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
   imageGalleryCard.setAttribute('style', `background-image:url(${galleryCard.link})`);
-  imageGalleryCard.addEventListener('click', ()=>{
-    handlerViewImageGallaryCard(galleryCard.name, galleryCard.link)}
+  imageGalleryCard.addEventListener('click', function(evt) {
+    if(evt.target===evt.currentTarget) {
+      handlerViewImageGallaryCard(galleryCard.name,galleryCard.link);
+    }
+  }
   );
 
   const deleteButton = newGalleryCard.querySelector('.gallery__delete');
