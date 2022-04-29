@@ -102,6 +102,7 @@ const handlerLikeGallaryCard = (evt)=>{
 
 const handlerViewImageGallaryCard = (name, link)=> {
   popupViewImage.setAttribute('src', link);
+  popupViewImage.setAttribute ('alt', name);
   popupViewSubtitle.textContent = name;
   popupToggle(popupView);
 
