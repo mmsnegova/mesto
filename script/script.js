@@ -36,9 +36,9 @@ const galleryCardTemlate = document
 //ДОМ элементы
 //попап редактирования профиля
 
-const openPopupEditButton = document.querySelector('.profile__edit');
+const buttonOpenPopupEdit = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_edit');
-const popupEditCloseButton = popupEdit.querySelector('.popup__close');
+const buttonClosePopupEdit = popupEdit.querySelector('.popup__close');
 const formEdit = popupEdit.querySelector('.popup__body');
 const nameInput = formEdit.querySelector('.popup__first-imput_name');
 const jobInput  = formEdit.querySelector('.popup__second-input_job');
@@ -46,18 +46,18 @@ const nameProfile = document.querySelector('.profile__name');
 const jobProfile = document.querySelector('.profile__job');
 
 //попап добавления карточек
-const openPopupAddButton = document.querySelector('.profile__add');
+const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const popupAdd= document.querySelector('.popup_add');
-const popupAddCloseButton = popupAdd.querySelector('.popup__close');
+const buttonClosePopupAdd = popupAdd.querySelector('.popup__close');
 const formAdd = popupAdd.querySelector('.popup__body');
-const nameIPlaceInpute = formAdd.querySelector('.popup__first-imput_place-name');
+const namePlaceInpute = formAdd.querySelector('.popup__first-imput_place-name');
 const linkInput  = formAdd.querySelector('.popup__second-input_link');
 
 //попап с картинкой
 const popupView = document.querySelector('.popup_view');
-const popupViewCloseButton = popupView.querySelector('.popup__close');
-const popupViewImage = popupView.querySelector('.popup__image');
-const popupViewSubtitle = popupView.querySelector('.popup__subtitle');
+const buttonClosePopupView = popupView.querySelector('.popup__close');
+const imagePopupView = popupView.querySelector('.popup__image');
+const subtitlePopupView = popupView.querySelector('.popup__subtitle');
 
 //контейнер для вставки
 
@@ -73,18 +73,21 @@ function popupToggle(popup) {
 
 function formSubmitHandlerEdit(evt) {
   evt.preventDefault();
-  nameProfile.textContent = nameInput.value;
-  jobProfile.textContent = jobInput.value;
+  if (nameInput.value != '' && jobInput.value !=''){
+    nameProfile.textContent = nameInput.value;
+    jobProfile.textContent = jobInput.value;
+  }
   popupToggle(popupEdit);
 }
 
 //добавление новой карточки
 const formSubmitHandlerAdd = (evt)=> {
   evt.preventDefault();
-  renderGalleryCard(
-    {name: nameIPlaceInpute.value,
-    link: linkInput.value}
-  );
+  if (namePlaceInpute.value!='' && linkInput.value !='')
+    renderGalleryCard(
+      {name: namePlaceInpute.value,
+      link: linkInput.value}
+    );
   popupToggle(popupAdd);
 };
 
@@ -101,9 +104,9 @@ const handlerLikeGallaryCard = (evt)=>{
 //открытие попапа с картинкой
 
 const handlerViewImageGallaryCard = (name, link)=> {
-  popupViewImage.setAttribute('src', link);
-  popupViewImage.setAttribute ('alt', name);
-  popupViewSubtitle.textContent = name;
+  imagePopupView.setAttribute('src', link);
+  imagePopupView.setAttribute ('alt', name);
+  subtitlePopupView.textContent = name;
   popupToggle(popupView);
 
 }
@@ -117,7 +120,8 @@ const generateGalleryCard = (galleryCard) => {
   titleGalleryCard.textContent = galleryCard.name;
 
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
-  imageGalleryCard.setAttribute('style', `background-image:url(${galleryCard.link})`);
+  imageGalleryCard.setAttribute('src', galleryCard.link);
+  imageGalleryCard.setAttribute('alt', galleryCard.name);
   imageGalleryCard.addEventListener('click', function(evt) {
     if(evt.target===evt.currentTarget) {
       handlerViewImageGallaryCard(galleryCard.name,galleryCard.link);
@@ -141,14 +145,15 @@ const renderGalleryCard = (galleryCard)=>{
   galleryConteiner.prepend(generateGalleryCard(galleryCard));
 }
 
-for (index = initialCards.length - 1; index > -1; --index){
-  renderGalleryCard(initialCards[index]);
-}
+initialCards.forEach((galleryCard) => {
+  renderGalleryCard(galleryCard)
+});
+
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 //обработчик нажатия на кнопку Реадактировать
 
-openPopupEditButton.addEventListener('click', ()=>{
+buttonOpenPopupEdit.addEventListener('click', ()=>{
   if (!popupEdit.classList.contains('popup_opened')) {
     nameInput.value=nameProfile.textContent;
     jobInput.value=jobProfile.textContent;
@@ -159,15 +164,15 @@ openPopupEditButton.addEventListener('click', ()=>{
 
 //обработчик нажатия на кнопку закрыть редактирование профиля
 
-popupEditCloseButton.addEventListener('click', ()=>{
+buttonClosePopupEdit.addEventListener('click', ()=>{
   popupToggle(popupEdit);
 });
 
 //обработчик нажатия на кнопку Добавить
 
-openPopupAddButton.addEventListener('click', ()=>{
+buttonOpenPopupAdd.addEventListener('click', ()=>{
   if (!popupAdd.classList.contains('popup_opened')) {
-    nameIPlaceInpute.value='';
+    namePlaceInpute.value='';
     linkInput.value='';
   }
   popupToggle(popupAdd);
@@ -175,7 +180,7 @@ openPopupAddButton.addEventListener('click', ()=>{
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
 
-popupAddCloseButton.addEventListener('click', ()=>{
+buttonClosePopupAdd.addEventListener('click', ()=>{
   popupToggle(popupAdd);
 });
 
@@ -188,6 +193,6 @@ formAdd.addEventListener('submit', formSubmitHandlerAdd);
 
 
 //закрытие попапа с картинкой
-popupViewCloseButton.addEventListener('click', ()=>{
+buttonClosePopupView.addEventListener('click', ()=>{
   popupToggle(popupView);
 });
