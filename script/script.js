@@ -83,11 +83,10 @@ function formSubmitHandlerEdit(evt) {
 //добавление новой карточки
 const formSubmitHandlerAdd = (evt)=> {
   evt.preventDefault();
-  if (namePlaceInpute.value!='' && linkInput.value !='')
-    renderGalleryCard(
-      {name: namePlaceInpute.value,
-      link: linkInput.value}
-    );
+  renderGalleryCard(
+    {name: namePlaceInpute.value,
+    link: linkInput.value}
+  );
   popupToggle(popupAdd);
 };
 
