@@ -3,19 +3,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, 282px);
+  justify-content: center;
   gap: 20px 17px;
-}
-
-@media (max-width: 880px) {
-  .gallery__list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .gallery__list {
-    grid-template-columns:  1fr;
-    gap: 20px;
-  }
 }

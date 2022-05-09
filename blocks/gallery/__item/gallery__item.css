@@ -7,4 +7,5 @@
   flex-direction: column;
   white-space: nowrap;
   overflow:hidden;
+  position: relative;
 }
