@@ -40,8 +40,8 @@ const buttonOpenPopupEdit = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_edit');
 const buttonClosePopupEdit = popupEdit.querySelector('.popup__close');
 const formEdit = popupEdit.querySelector('.popup__body');
-const nameInput = formEdit.querySelector('.popup__first-imput_name');
-const jobInput  = formEdit.querySelector('.popup__second-input_job');
+const nameInput = formEdit.querySelector('.popup__input_name');
+const jobInput  = formEdit.querySelector('.popup__input_job');
 const nameProfile = document.querySelector('.profile__name');
 const jobProfile = document.querySelector('.profile__job');
 
@@ -50,8 +50,8 @@ const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const popupAdd= document.querySelector('.popup_add');
 const buttonClosePopupAdd = popupAdd.querySelector('.popup__close');
 const formAdd = popupAdd.querySelector('.popup__body');
-const namePlaceInpute = formAdd.querySelector('.popup__first-imput_place-name');
-const linkInput  = formAdd.querySelector('.popup__second-input_link');
+const namePlaceInpute = formAdd.querySelector('.popup__input_place-name');
+const linkInput  = formAdd.querySelector('.popup__input_link');
 
 //попап с картинкой
 const popupView = document.querySelector('.popup_view');
@@ -148,7 +148,47 @@ initialCards.forEach((galleryCard) => {
   renderGalleryCard(galleryCard)
 });
 
+//ВАЛИДАЦИЯ
+const showError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_error');
+  errorElement.textContent = errorMessage;
+  console.log(errorMessage);
+  errorElement.classList.add('popup__input-error_active');
+};
 
+const hideError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_error');
+  errorElement.classList.remove('popup__input-error_active');
+  errorElement.textContent='';
+};
+
+const checkInputValidity = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup__body'));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement);
+  });
+};
+
+enableValidation();
 //ОБРАБОТЧИКИ СОБЫТИЙ
 //обработчик нажатия на кнопку Реадактировать
 

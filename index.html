@@ -42,8 +42,16 @@
         </button>
         <form class="popup__body" name="edit-profile" method="POST" novalidate>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__first-imput popup__first-imput_name" type="text" placeholder="Введите имя" name="full-name" required>
-          <input class="popup__second-input popup__second-input_job" type="text" placeholder="Введите род деятельности" name="job" required>
+          <div class="input-container">
+            <input class="popup__input popup__input_name" type="text" placeholder="Введите имя" name="full-name" id="full-name" minlength="2" maxlength="40" required>
+            <span class='popup__input-error full-name-error'></span>
+          </div>
+
+          <div class="input-container">
+            <input class="popup__input popup__input_job" type="text" placeholder="Введите род деятельности" name="job" id="job" minlength="2" maxlength="200" required>
+            <span class='popup__input-error job-error'></span>
+          </div>
+
           <button class="popup__save" type="submit" aria-label="Сохранить">Сохранить</button>
         </form>
       </div>
@@ -55,9 +63,16 @@
         </button>
         <form class="popup__body" name="add-place" method="POST" novalidate>
           <h2 class="popup__title">Новое место</h2>
-          <input class="popup__first-imput popup__first-imput_place-name" type="text" placeholder="Название" name="place-name" required>
-          <input class="popup__second-input popup__second-input_link" type="url" placeholder="Ссылка на картинку" name="link" required>
-          <button class="popup__save" type="submit" aria-label="Создать">Создать</button>
+
+          <div class="input-container">
+            <input class="popup__input popup__input_place-name" type="text" placeholder="Название" name="place-name" id="place-name" minlength="2" maxlength="30" required>
+            <span class='popup__input-error place-name-error'></span>
+          </div>
+          <div class="input-container">
+            <input class="popup__input popup__input_link" type="url" placeholder="Ссылка на картинку" name="link" id="link" required>
+            <span class='popup__input-error link-error'></span>
+          </div>
+            <button class="popup__save" type="submit" aria-label="Создать">Создать</button>
         </form>
       </div>
     </div>

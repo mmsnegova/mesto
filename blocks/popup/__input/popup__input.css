@@ -1,15 +1,21 @@
-.popup__second-input {
+.popup__input {
   border: none;
   border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-  margin: 0 0 48px;
+  margin: 0 0 30px;
   padding: 0;
   width: 100%;
-  font-style: normal;
-  font-weight: 400;
   font-size: 14px;
   line-height: 27px;
 }
 
-.popup__second-input:focus {
+
+
+.popup__input:focus {
   outline: none;
 }
+
+
+.popup__body .input-container:nth-of-type(2) .popup__input {
+  margin-bottom: 48px;
+}
+
