@@ -107,7 +107,6 @@ const handlerViewImageGallaryCard = (name, link)=> {
   imagePopupView.setAttribute ('alt', name);
   subtitlePopupView.textContent = name;
   popupToggle(popupView);
-
 }
 
 //генерация карточки
@@ -263,3 +262,26 @@ formAdd.addEventListener('submit', formSubmitHandlerAdd);
 buttonClosePopupView.addEventListener('click', ()=>{
   popupToggle(popupView);
 });
+
+
+//закрытие попапа при нажатии на оверлей
+popupAdd.addEventListener('click', (evt)=>{
+  if(evt.target===evt.currentTarget){
+    popupToggle(popupAdd);
+  };
+});
+
+popupEdit.addEventListener('click', (evt)=>{
+  if(evt.target===evt.currentTarget){
+    popupToggle(popupEdit);
+  };
+});
+
+popupView.addEventListener('click', ()=>{
+  if(evt.target===evt.currentTarget){
+    popupToggle(popupView);
+  };
+});
+
+
+
