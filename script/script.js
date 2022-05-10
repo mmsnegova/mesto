@@ -63,10 +63,25 @@ const subtitlePopupView = popupView.querySelector('.popup__subtitle');
 
 const galleryConteiner = document.querySelector('.gallery__list');
 
-//открытие и закрытие формы
+//ФУНКЦИИ
+//закрытие по нажатию ESC
 
-function popupToggle(popup) {
-  popup.classList.toggle('popup_opened');
+const keydownEscHeandler = (evt) => {
+  if(evt.key==='Escape'){
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
+//открытие и закрытие попапа
+
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', keydownEscHeandler);
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', keydownEscHeandler);
 }
 
 //редактирование информации о себе
@@ -77,7 +92,7 @@ function formSubmitHandlerEdit(evt) {
     nameProfile.textContent = nameInput.value;
     jobProfile.textContent = jobInput.value;
   }
-  popupToggle(popupEdit);
+  closePopup(popupEdit);
 }
 
 //добавление новой карточки
@@ -87,7 +102,7 @@ const formSubmitHandlerAdd = (evt)=> {
     {name: namePlaceInpute.value,
     link: linkInput.value}
   );
-  popupToggle(popupAdd);
+  closePopup(popupAdd);
 };
 
 //удаление карточки
@@ -106,8 +121,9 @@ const handlerViewImageGallaryCard = (name, link)=> {
   imagePopupView.setAttribute('src', link);
   imagePopupView.setAttribute ('alt', name);
   subtitlePopupView.textContent = name;
-  popupToggle(popupView);
+  openPopup(popupView);
 }
+
 
 //генерация карточки
 
@@ -222,7 +238,7 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
     nameInput.value=nameProfile.textContent;
     jobInput.value=jobProfile.textContent;
   }
-  popupToggle(popupEdit);
+  openPopup(popupEdit);
   enableValidation();
 }
 );
@@ -230,7 +246,7 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
 //обработчик нажатия на кнопку закрыть редактирование профиля
 
 buttonClosePopupEdit.addEventListener('click', ()=>{
-  popupToggle(popupEdit);
+  closePopup(popupEdit);
 });
 
 //обработчик нажатия на кнопку Добавить
@@ -240,14 +256,14 @@ buttonOpenPopupAdd.addEventListener('click', ()=>{
     namePlaceInpute.value='';
     linkInput.value='';
   }
-  popupToggle(popupAdd);
+  openPopup(popupAdd);
   enableValidation();
 });
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
 
 buttonClosePopupAdd.addEventListener('click', ()=>{
-  popupToggle(popupAdd);
+  closePopup(popupAdd);
 });
 
 //обработчик отправки данных с формы редактирования
@@ -260,28 +276,30 @@ formAdd.addEventListener('submit', formSubmitHandlerAdd);
 
 //закрытие попапа с картинкой
 buttonClosePopupView.addEventListener('click', ()=>{
-  popupToggle(popupView);
+  closePopup(popupView);
 });
 
 
 //закрытие попапа при нажатии на оверлей
 popupAdd.addEventListener('click', (evt)=>{
   if(evt.target===evt.currentTarget){
-    popupToggle(popupAdd);
+    closePopup(popupAdd);
   };
 });
 
 popupEdit.addEventListener('click', (evt)=>{
   if(evt.target===evt.currentTarget){
-    popupToggle(popupEdit);
+    closePopup(popupEdit);
   };
 });
 
-popupView.addEventListener('click', ()=>{
+popupView.addEventListener('click', (evt)=>{
   if(evt.target===evt.currentTarget){
-    popupToggle(popupView);
+    closePopup(popupView);
   };
 });
+
+
 
 
 
