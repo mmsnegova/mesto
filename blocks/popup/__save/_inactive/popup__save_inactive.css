@@ -1,0 +1,4 @@
+.popup__save_inactive {
+  background-color: rgba(0, 0, 0, 0.15);
+  cursor: default;
+}

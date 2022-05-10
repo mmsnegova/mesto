@@ -153,7 +153,6 @@ const showError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add('popup__input_error');
   errorElement.textContent = errorMessage;
-  console.log(errorMessage);
   errorElement.classList.add('popup__input-error_active');
 };
 
@@ -165,6 +164,7 @@ const hideError = (formElement, inputElement) => {
 };
 
 const checkInputValidity = (formElement, inputElement) => {
+
   if (!inputElement.validity.valid) {
     showError(formElement, inputElement, inputElement.validationMessage);
   } else {
@@ -174,11 +174,18 @@ const checkInputValidity = (formElement, inputElement) => {
 
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+
+  const buttonElement = formElement.querySelector('.popup__save');
+  toggleButtonState(inputList, buttonElement);
+
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
+
+
 };
 
 const enableValidation = () => {
@@ -188,7 +195,26 @@ const enableValidation = () => {
   });
 };
 
-enableValidation();
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+};
+
+const toggleButtonState  = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.setAttribute('disabled', true);
+    buttonElement.classList.add('popup__save_inactive');
+
+  }
+  else {
+    buttonElement.removeAttribute('disabled');
+    buttonElement.classList.remove('popup__save_inactive');
+
+  };
+};
+
+
 //ОБРАБОТЧИКИ СОБЫТИЙ
 //обработчик нажатия на кнопку Реадактировать
 
@@ -198,6 +224,7 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
     jobInput.value=jobProfile.textContent;
   }
   popupToggle(popupEdit);
+  enableValidation();
 }
 );
 
@@ -215,6 +242,7 @@ buttonOpenPopupAdd.addEventListener('click', ()=>{
     linkInput.value='';
   }
   popupToggle(popupAdd);
+  enableValidation();
 });
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
