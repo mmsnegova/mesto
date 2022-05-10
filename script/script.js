@@ -70,19 +70,29 @@ const keydownEscHeandler = (evt) => {
   if(evt.key==='Escape'){
     closePopup(document.querySelector('.popup_opened'));
   }
-}
+};
+
+//закрытие попапа по нажатию на оверлей
+const clickPopupOverlayHeandler = (evt) => {
+  if(evt.target===evt.currentTarget){
+    closePopup(document.querySelector('.popup_opened'));
+  }
+};
+
 
 //открытие и закрытие попапа
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', keydownEscHeandler);
-}
+  popup.addEventListener('click',clickPopupOverlayHeandler);
+};
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', keydownEscHeandler);
-}
+  popup.removeEventListener('click',clickPopupOverlayHeandler);
+};
 
 //редактирование информации о себе
 
@@ -93,7 +103,7 @@ function formSubmitHandlerEdit(evt) {
     jobProfile.textContent = jobInput.value;
   }
   closePopup(popupEdit);
-}
+};
 
 //добавление новой карточки
 const formSubmitHandlerAdd = (evt)=> {
@@ -108,12 +118,12 @@ const formSubmitHandlerAdd = (evt)=> {
 //удаление карточки
 const handlerDeleteGallaryCard = (evt) => {
   evt.target.closest('.gallery__item').remove();
-}
+};
 
 //добавление лайка на карточку
 const handlerLikeGallaryCard = (evt)=>{
   evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
-}
+};
 
 //открытие попапа с картинкой
 
@@ -122,7 +132,7 @@ const handlerViewImageGallaryCard = (name, link)=> {
   imagePopupView.setAttribute ('alt', name);
   subtitlePopupView.textContent = name;
   openPopup(popupView);
-}
+};
 
 
 //генерация карточки
@@ -151,13 +161,13 @@ const generateGalleryCard = (galleryCard) => {
 
 
   return newGalleryCard;
-}
+};
 
 //рендер карточки
 
 const renderGalleryCard = (galleryCard)=>{
   galleryConteiner.prepend(generateGalleryCard(galleryCard));
-}
+};
 
 initialCards.forEach((galleryCard) => {
   renderGalleryCard(galleryCard)
@@ -278,27 +288,6 @@ formAdd.addEventListener('submit', formSubmitHandlerAdd);
 buttonClosePopupView.addEventListener('click', ()=>{
   closePopup(popupView);
 });
-
-
-//закрытие попапа при нажатии на оверлей
-popupAdd.addEventListener('click', (evt)=>{
-  if(evt.target===evt.currentTarget){
-    closePopup(popupAdd);
-  };
-});
-
-popupEdit.addEventListener('click', (evt)=>{
-  if(evt.target===evt.currentTarget){
-    closePopup(popupEdit);
-  };
-});
-
-popupView.addEventListener('click', (evt)=>{
-  if(evt.target===evt.currentTarget){
-    closePopup(popupView);
-  };
-});
-
 
 
 
