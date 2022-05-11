@@ -52,6 +52,7 @@ const buttonClosePopupAdd = popupAdd.querySelector('.popup__close');
 const formAdd = popupAdd.querySelector('.popup__body');
 const namePlaceInpute = formAdd.querySelector('.popup__input_place-name');
 const linkInput  = formAdd.querySelector('.popup__input_link');
+const buttonSubmit = formAdd.querySelector('.popup__save');
 
 //попап с картинкой
 const popupView = document.querySelector('.popup_view');
@@ -173,71 +174,6 @@ initialCards.forEach((galleryCard) => {
   renderGalleryCard(galleryCard)
 });
 
-//ВАЛИДАЦИЯ
-const showError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
-};
-
-const hideError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_error');
-  errorElement.classList.remove('popup__input-error_active');
-  errorElement.textContent='';
-};
-
-const checkInputValidity = (formElement, inputElement) => {
-
-  if (!inputElement.validity.valid) {
-    showError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideError(formElement, inputElement);
-  }
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-
-  const buttonElement = formElement.querySelector('.popup__save');
-  toggleButtonState(inputList, buttonElement);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-
-
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.popup__body'));
-  formList.forEach((formElement) => {
-    setEventListeners(formElement);
-  });
-};
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-};
-
-const toggleButtonState  = (inputList, buttonElement) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.add('popup__save_inactive');
-
-  }
-  else {
-    buttonElement.removeAttribute('disabled');
-    buttonElement.classList.remove('popup__save_inactive');
-
-  };
-};
 
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
@@ -249,7 +185,6 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
     jobInput.value=jobProfile.textContent;
   }
   openPopup(popupEdit);
-  enableValidation();
 }
 );
 
@@ -267,7 +202,7 @@ buttonOpenPopupAdd.addEventListener('click', ()=>{
     linkInput.value='';
   }
   openPopup(popupAdd);
-  enableValidation();
+  makeButtonIncative(buttonSubmit);
 });
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
