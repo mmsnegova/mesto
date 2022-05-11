@@ -76,8 +76,6 @@ const keydownEscHeandler = (evt) => {
 
 //закрытие попапа по нажатию на оверлей
 const clickPopupOverlayHeandler = (evt) => {
-  console.log(evt.target);
-  console.log(evt.currentTarget);
   if(evt.target===evt.currentTarget){
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -192,9 +190,6 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
   makeButtonActive(buttonSubmitFormEdit);
 }
 );
-popupEdit.addEventListener('reset', () => {
-  console.log('Событие очистки полей формы')
-})
 //обработчик нажатия на кнопку закрыть редактирование профиля
 
 buttonClosePopupEdit.addEventListener('click', ()=>{
