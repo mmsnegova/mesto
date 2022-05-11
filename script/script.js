@@ -44,6 +44,7 @@ const nameInput = formEdit.querySelector('.popup__input_name');
 const jobInput  = formEdit.querySelector('.popup__input_job');
 const nameProfile = document.querySelector('.profile__name');
 const jobProfile = document.querySelector('.profile__job');
+const buttonSubmitFormEdit = formEdit.querySelector('.popup__save');
 
 //попап добавления карточек
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
@@ -52,7 +53,7 @@ const buttonClosePopupAdd = popupAdd.querySelector('.popup__close');
 const formAdd = popupAdd.querySelector('.popup__body');
 const namePlaceInpute = formAdd.querySelector('.popup__input_place-name');
 const linkInput  = formAdd.querySelector('.popup__input_link');
-const buttonSubmit = formAdd.querySelector('.popup__save');
+const buttonSubmitFormAdd = formAdd.querySelector('.popup__save');
 
 //попап с картинкой
 const popupView = document.querySelector('.popup_view');
@@ -75,6 +76,8 @@ const keydownEscHeandler = (evt) => {
 
 //закрытие попапа по нажатию на оверлей
 const clickPopupOverlayHeandler = (evt) => {
+  console.log(evt.target);
+  console.log(evt.currentTarget);
   if(evt.target===evt.currentTarget){
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -185,12 +188,17 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
     jobInput.value=jobProfile.textContent;
   }
   openPopup(popupEdit);
+  hideError(popupEdit);
+  makeButtonActive(buttonSubmitFormEdit);
 }
 );
-
+popupEdit.addEventListener('reset', () => {
+  console.log('Событие очистки полей формы')
+})
 //обработчик нажатия на кнопку закрыть редактирование профиля
 
 buttonClosePopupEdit.addEventListener('click', ()=>{
+
   closePopup(popupEdit);
 });
 
@@ -202,7 +210,7 @@ buttonOpenPopupAdd.addEventListener('click', ()=>{
     linkInput.value='';
   }
   openPopup(popupAdd);
-  makeButtonIncative(buttonSubmit);
+  makeButtonInactive(buttonSubmitFormAdd);
 });
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
