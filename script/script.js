@@ -1,32 +1,3 @@
-//массив мест
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 //шаблоны
 
 const galleryCardTemlate = document
@@ -68,68 +39,80 @@ const galleryConteiner = document.querySelector('.gallery__list');
 //ФУНКЦИИ
 //закрытие по нажатию ESC
 
-const keydownEscHeandler = (evt) => {
+const heandleEscKeydown = (evt) => {
   if(evt.key==='Escape'){
     closePopup(document.querySelector('.popup_opened'));
   }
 };
 
 //закрытие попапа по нажатию на оверлей
-const clickPopupOverlayHeandler = (evt) => {
+const heandlePopupOverlayClick = (evt) => {
   if(evt.target===evt.currentTarget){
-    closePopup(document.querySelector('.popup_opened'));
+    closePopup(evt.target);
   }
 };
 
 
 //открытие и закрытие попапа
-
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', keydownEscHeandler);
-  popup.addEventListener('click',clickPopupOverlayHeandler);
+  document.addEventListener('keydown', heandleEscKeydown);
+  popup.addEventListener('click',heandlePopupOverlayClick);
 };
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', keydownEscHeandler);
-  popup.removeEventListener('click',clickPopupOverlayHeandler);
+  document.removeEventListener('keydown', heandleEscKeydown);
+  popup.removeEventListener('click',heandlePopupOverlayClick);
 };
 
-//редактирование информации о себе
+const handleOpenPopupEdit = ()=>{
+  nameInput.value=nameProfile.textContent;
+  jobInput.value=jobProfile.textContent;
+  openPopup(popupEdit);
+  hideError (popupEdit, nameInput, validationConfig);
+  hideError (popupEdit, jobInput, validationConfig);
+  makeButtonActive(buttonSubmitFormEdit, validationConfig);
+}
 
-function formSubmitHandlerEdit(evt) {
+const handleOpenPopupAdd = ()=>{
+  formAdd.reset();
+  hideError (popupAdd, namePlaceInpute, validationConfig);
+  hideError (popupAdd, linkInput, validationConfig);
+  openPopup(popupAdd);
+}
+
+//редактирование информации о себе
+function handleProfileFormSubmit (evt) {
+  nameProfile.textContent = nameInput.value;
+  jobProfile.textContent = jobInput.value;
   evt.preventDefault();
-  if (nameInput.value != '' && jobInput.value !=''){
-    nameProfile.textContent = nameInput.value;
-    jobProfile.textContent = jobInput.value;
-  }
   closePopup(popupEdit);
 };
 
 //добавление новой карточки
-const formSubmitHandlerAdd = (evt)=> {
+const handleAddCardFormSubmit = (evt)=> {
   evt.preventDefault();
   renderGalleryCard(
     {name: namePlaceInpute.value,
     link: linkInput.value}
   );
   closePopup(popupAdd);
+  makeButtonInactive(buttonSubmitFormAdd,validationConfig);
 };
 
 //удаление карточки
-const handlerDeleteGallaryCard = (evt) => {
+const handleGallaryCardDelete = (evt) => {
   evt.target.closest('.gallery__item').remove();
 };
 
 //добавление лайка на карточку
-const handlerLikeGallaryCard = (evt)=>{
+const handleGallaryCardLike = (evt)=>{
   evt.target.closest('.gallery__like').classList.toggle('gallery__like_active')
 };
 
 //открытие попапа с картинкой
-
-const handlerViewImageGallaryCard = (name, link)=> {
+const handleGallaryCardImageView = (name, link)=> {
   imagePopupView.setAttribute('src', link);
   imagePopupView.setAttribute ('alt', name);
   subtitlePopupView.textContent = name;
@@ -138,7 +121,6 @@ const handlerViewImageGallaryCard = (name, link)=> {
 
 
 //генерация карточки
-
 const generateGalleryCard = (galleryCard) => {
   const newGalleryCard = galleryCardTemlate.cloneNode(true);
 
@@ -148,25 +130,22 @@ const generateGalleryCard = (galleryCard) => {
   const imageGalleryCard = newGalleryCard.querySelector('.gallery__image');
   imageGalleryCard.setAttribute('src', galleryCard.link);
   imageGalleryCard.setAttribute('alt', galleryCard.name);
-  imageGalleryCard.addEventListener('click', function(evt) {
-    if(evt.target===evt.currentTarget) {
-      handlerViewImageGallaryCard(galleryCard.name,galleryCard.link);
+  imageGalleryCard.addEventListener('click', () => {
+      handleGallaryCardImageView(galleryCard.name,galleryCard.link);
     }
-  }
   );
 
   const deleteButton = newGalleryCard.querySelector('.gallery__delete');
-  deleteButton.addEventListener('click', handlerDeleteGallaryCard);
+  deleteButton.addEventListener('click', handleGallaryCardDelete);
 
   const likeButton = newGalleryCard.querySelector('.gallery__like');
-  likeButton.addEventListener('click', handlerLikeGallaryCard);
+  likeButton.addEventListener('click', handleGallaryCardLike);
 
 
   return newGalleryCard;
 };
 
 //рендер карточки
-
 const renderGalleryCard = (galleryCard)=>{
   galleryConteiner.prepend(generateGalleryCard(galleryCard));
 };
@@ -179,48 +158,26 @@ initialCards.forEach((galleryCard) => {
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 //обработчик нажатия на кнопку Реадактировать
+buttonOpenPopupEdit.addEventListener('click', handleOpenPopupEdit);
 
-buttonOpenPopupEdit.addEventListener('click', ()=>{
-  if (!popupEdit.classList.contains('popup_opened')) {
-    nameInput.value=nameProfile.textContent;
-    jobInput.value=jobProfile.textContent;
-  }
-  openPopup(popupEdit);
-  hideError(popupEdit);
-  makeButtonActive(buttonSubmitFormEdit);
-}
-);
 //обработчик нажатия на кнопку закрыть редактирование профиля
-
 buttonClosePopupEdit.addEventListener('click', ()=>{
-
   closePopup(popupEdit);
 });
 
 //обработчик нажатия на кнопку Добавить
-
-buttonOpenPopupAdd.addEventListener('click', ()=>{
-  if (!popupAdd.classList.contains('popup_opened')) {
-    namePlaceInpute.value='';
-    linkInput.value='';
-  }
-  openPopup(popupAdd);
-  makeButtonInactive(buttonSubmitFormAdd);
-});
+buttonOpenPopupAdd.addEventListener('click', handleOpenPopupAdd);
 
 //обработчик нажатия на кнопку закрыть форму добаления карточки
-
 buttonClosePopupAdd.addEventListener('click', ()=>{
   closePopup(popupAdd);
 });
 
 //обработчик отправки данных с формы редактирования
-
-formEdit.addEventListener('submit', formSubmitHandlerEdit);
+formEdit.addEventListener('submit', handleProfileFormSubmit);
 
 //обработчик отправки данных с формы добавления карточек
-formAdd.addEventListener('submit', formSubmitHandlerAdd);
-
+formAdd.addEventListener('submit', handleAddCardFormSubmit);
 
 //закрытие попапа с картинкой
 buttonClosePopupView.addEventListener('click', ()=>{
