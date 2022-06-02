@@ -28,4 +28,4 @@ const closePopup = (popup) => {
   popup.removeEventListener('click',heandlePopupOverlayClick);
 };
 
-export {openPopup, closePopup, popupView, buttonClosePopupView, imagePopupView, subtitlePopupView};
+//export {openPopup, closePopup, popupView, buttonClosePopupView, imagePopupView, subtitlePopupView};

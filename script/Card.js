@@ -1,10 +1,11 @@
-import {openPopup, closePopup, popupView, buttonClosePopupView, imagePopupView, subtitlePopupView} from './utils.js';
+//import {openPopup, closePopup, popupView, buttonClosePopupView, imagePopupView, subtitlePopupView} from './utils.js';
 
 export default class Card {
-  constructor(item,cardSelector){
-    this._name=item.name;
-    this._link=item.link;
+  constructor(data,cardSelector,handleCardClick){
+    this._name=data.name;
+    this._link=data.link;
     this._cardSelector=cardSelector;
+    this._handleCardClick=handleCardClick;
   }
 
   _getTemplate(){
@@ -37,12 +38,6 @@ export default class Card {
     this._element.querySelector('.gallery__like').classList.toggle('gallery__like_active');
   }
 
-  _handleOpenPopup(){
-    imagePopupView.src=this._link;
-    imagePopupView.alt= this._name;
-    subtitlePopupView.textContent = this._name;
-    openPopup(popupView);
-  }
 
   _handleClosePopup() {
     imagePopupView.src='';
@@ -51,7 +46,11 @@ export default class Card {
     closePopup(popupView);
   }
 
-  _setEventListeners() {
+  _setEventListeners() {//вместо  this._element.querySelector('.gallery__image') нужно this._cardImage
+    this._element.querySelector('.gallery__image').addEventListener('click',()=>{
+      this._handleCardClick(this._name, this._link)
+    });
+
     this._element.querySelector('.gallery__delete').addEventListener('click', ()=> {
       this._handleGallaryCardDelete();
     });
@@ -60,14 +59,14 @@ export default class Card {
       this._handleGallaryCardLike();
     })
 
-    this._element.querySelector('.gallery__image').addEventListener('click', ()=> {
+/*     this._element.querySelector('.gallery__image').addEventListener('click', ()=> {
       this._handleOpenPopup();
     });
 
     buttonClosePopupView.addEventListener('click', ()=> {
       this._handleClosePopup();
     });
-
+ */
 
   }
 
