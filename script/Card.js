@@ -20,6 +20,8 @@ export default class Card {
   _generateGalleryCard(){
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.gallery__image');
+    this._likeButton = this._element.querySelector('.gallery__like');
+    this._deleteButton = this._element.querySelector('.gallery__delete');
     this._element.querySelector('.gallery__title').textContent = this._name;
     this._cardImage.alt = this._name;
     this._cardImage.src = this._link;
@@ -36,7 +38,7 @@ export default class Card {
   };
 
   _handleGallaryCardLike () {
-    this._element.querySelector('.gallery__like').classList.toggle('gallery__like_active');
+    this._likeButton.classList.toggle('gallery__like_active');
   }
 
 
@@ -52,11 +54,11 @@ export default class Card {
       this._handleCardClick(this._name, this._link)
     });
 
-    this._element.querySelector('.gallery__delete').addEventListener('click', ()=> {
+    this._deleteButton.addEventListener('click', ()=> {
       this._handleGallaryCardDelete();
     });
 
-    this._element.querySelector('.gallery__like').addEventListener('click', ()=> {
+    this._likeButton.addEventListener('click', ()=> {
       this._handleGallaryCardLike();
     })
 
