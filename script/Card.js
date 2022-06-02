@@ -19,9 +19,10 @@ export default class Card {
 
   _generateGalleryCard(){
     this._element = this._getTemplate();
+    this._cardImage = this._element.querySelector('.gallery__image');
     this._element.querySelector('.gallery__title').textContent = this._name;
-    this._element.querySelector('.gallery__image').src = this._link;
-    this._element.querySelector('.gallery__image').alt = this._name;
+    this._cardImage.alt = this._name;
+    this._cardImage.src = this._link;
     this._setEventListeners();
     return this._element;
   }
@@ -46,8 +47,8 @@ export default class Card {
     closePopup(popupView);
   }
 
-  _setEventListeners() {//вместо  this._element.querySelector('.gallery__image') нужно this._cardImage
-    this._element.querySelector('.gallery__image').addEventListener('click',()=>{
+  _setEventListeners() {
+    this._cardImage.addEventListener('click',()=>{
       this._handleCardClick(this._name, this._link)
     });
 
