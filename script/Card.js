@@ -22,7 +22,8 @@ export default class Card {
     this._cardImage = this._element.querySelector('.gallery__image');
     this._likeButton = this._element.querySelector('.gallery__like');
     this._deleteButton = this._element.querySelector('.gallery__delete');
-    this._element.querySelector('.gallery__title').textContent = this._name;
+    this._cardTitle = this._element.querySelector('.gallery__title')
+    this._cardTitle.textContent = this._name;
     this._cardImage.alt = this._name;
     this._cardImage.src = this._link;
     this._setEventListeners();
@@ -43,9 +44,7 @@ export default class Card {
 
 
   _handleClosePopup() {
-    imagePopupView.src='';
-    imagePopupView.alt= '';
-    subtitlePopupView.textContent = '';
+
     closePopup(popupView);
   }
 
