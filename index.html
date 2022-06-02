@@ -27,7 +27,7 @@
         </section>
         <section class="gallery">
           <ul class="gallery__list">
-
+            <!-- контейнер для вставки карточек -->
           </ul>
         </section>
       </main>
@@ -84,7 +84,7 @@
     </figure>
     </div>
 
-    <template id="gallery-template">
+    <template class="gallery-template gallery-template_type_default">
       <li class="gallery__item">
         <img class="gallery__image">
         <button class="gallery__delete" type="button" aria-label="Удалить"></button>
@@ -94,8 +94,9 @@
         </div>
       </li>
     </template>
-    <script src="./script/validate.js"></script>
+
+
     <script src="./script/cards.js"></script>
-    <script src="./script/script.js"></script>
+    <script type="module" src="./script/index.js"></script>
   </body>
 </html>
