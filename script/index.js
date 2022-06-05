@@ -108,10 +108,9 @@ const handleOpenPopupEdit = ()=>{
   nameInput.value=nameProfile.textContent;
   jobInput.value=jobProfile.textContent;
   openPopup(popupEdit);
-  const formValidator = new FormValidator(validationConfig,popupEdit);
-  formValidator.resetError(nameInput);
-  formValidator.resetError(jobInput);
-  formValidator.resetButtonActive(buttonSubmitFormEdit);
+  formValidators[formEdit.getAttribute('name')].resetError(nameInput);
+  formValidators[formEdit.getAttribute('name')].resetError(jobInput);
+  formValidators[formEdit.getAttribute('name')].resetButtonActive(buttonSubmitFormEdit);
 }
 
 function handleProfileFormSubmit (evt) {
@@ -131,9 +130,8 @@ const buttonSubmitFormAdd = formAdd.querySelector('.popup__save');
 
 const handleOpenPopupAdd = ()=>{
   formAdd.reset();
-  const formValidator = new FormValidator(validationConfig,popupAdd);
-  formValidator.resetError(namePlaceInpute);
-  formValidator.resetError(linkInput);
+  formValidators[formAdd.getAttribute('name')].resetError(namePlaceInpute);
+  formValidators[formAdd.getAttribute('name')].resetError(linkInput);
   openPopup(popupAdd);
 }
 const handleAddCardFormSubmit = (evt)=> {
@@ -144,8 +142,7 @@ const handleAddCardFormSubmit = (evt)=> {
   }
   galleryConteiner.prepend(createCard(item));
   closePopup(popupAdd);
-  const formValidator = new FormValidator(validationConfig,popupAdd);
-  formValidator.resetButtonInactive(buttonSubmitFormAdd);
+  formValidators[formAdd.getAttribute('name')].resetButtonInactive(buttonSubmitFormAdd);
   };
 
 
@@ -160,5 +157,8 @@ buttonClosePopupAdd.addEventListener('click', ()=>{
   closePopup(popupAdd);
 });
 
+buttonClosePopupView.addEventListener('click', ()=>{
+  closePopup(popupView);
+})
 
 
