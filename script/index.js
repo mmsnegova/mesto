@@ -85,7 +85,6 @@ function  enableValidation(config) {
     const validator = new FormValidator(config, formElement)
 // получаем данные из атрибута `name` у формы
     const formName = formElement.getAttribute('name');
-    console.log(formName);
    // вот тут в объект записываем под именем формы
     formValidators[formName] = validator;
     validator.enableValidation();

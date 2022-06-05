@@ -1,12 +1,10 @@
-//import {openPopup, closePopup, popupView, buttonClosePopupView, imagePopupView, subtitlePopupView} from './utils.js';
-
 export default class Card {
   constructor(data,cardSelector,handleCardClick){
     this._name=data.name;
     this._link=data.link;
     this._cardSelector=cardSelector;
     this._handleCardClick=handleCardClick;
-  }
+  };
 
   _getTemplate(){
     const cardElement = document
@@ -15,7 +13,7 @@ export default class Card {
       .cloneNode(true);
 
     return cardElement;
-  }
+  };
 
   generateGalleryCard(){
     this._element = this._getTemplate();
@@ -28,11 +26,7 @@ export default class Card {
     this._cardImage.src = this._link;
     this._setEventListeners();
     return this._element;
-  }
-
-/*   renderGalleryCard (conteiner) {
-    conteiner.prepend(this._generateGalleryCard());
-  } */
+  };
 
   _handleGallaryCardDelete () {
     this._element.remove();
@@ -40,7 +34,7 @@ export default class Card {
 
   _handleGallaryCardLike () {
     this._likeButton.classList.toggle('gallery__like_active');
-  }
+  };
 
 
   _setEventListeners() {
@@ -54,18 +48,8 @@ export default class Card {
 
     this._likeButton.addEventListener('click', ()=> {
       this._handleGallaryCardLike();
-    })
-
-/*     this._element.querySelector('.gallery__image').addEventListener('click', ()=> {
-      this._handleOpenPopup();
     });
 
-    buttonClosePopupView.addEventListener('click', ()=> {
-      this._handleClosePopup();
-    });
- */
-
-  }
-
+  };
 
 }
