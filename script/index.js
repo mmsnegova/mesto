@@ -40,10 +40,17 @@ function handleCardClick(name, link){
 }
 
 
+//функция создания карточки
+function createCard(data){
+  const card = new Card (data, '.gallery-template_type_default',handleCardClick);
+  const cardElement = card.generateGalleryCard();
+  return cardElement;
+}
 
 
 const galleryConteiner = document.querySelector('.gallery__list');
 const validationConfig = {
+  formSelector: '.popup__body',
   inputElement: '.popup__input',
   buttonElement: '.popup__save',
   inactiveButtonClass: 'popup__save_inactive',
@@ -51,18 +58,41 @@ const validationConfig = {
   errorClass:'popup__input-error_active'
 }
 
-initialCards.forEach((item)=>{
-  const card = new Card(item,'.gallery-template_type_default', handleCardClick);
-  card.renderGalleryCard(galleryConteiner);
-})
 
-const formList = Array.from(document.querySelectorAll('.popup__body'));
-formList.forEach((formElement)=>{
-  const formValidator = new FormValidator(validationConfig,formElement);
-  formValidator.enableValidation();
-})
+//создание массива с карточками
+function createArrayCards(){
+  const arrayCards = new Array();
+  initialCards.forEach((item)=>{
+    arrayCards.push(createCard(item));
+  });
+  return arrayCards;
+};
 
+//вставка на страницу массива с карточками
+function insertArrayCards(){
+  createArrayCards().forEach((item)=>{
+    galleryConteiner.appendChild(item);
+  });
+};
+insertArrayCards();
 
+const formValidators = {};
+
+// Включение валидации
+function  enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement)
+// получаем данные из атрибута `name` у формы
+    const formName = formElement.getAttribute('name');
+    console.log(formName);
+   // вот тут в объект записываем под именем формы
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(validationConfig);
 
 const buttonOpenPopupEdit = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_edit');
@@ -112,8 +142,7 @@ const handleAddCardFormSubmit = (evt)=> {
     name: namePlaceInpute.value,
     link: linkInput.value
   }
-  const card = new Card(item,'.gallery-template_type_default');
-  card.renderGalleryCard(galleryConteiner);
+  galleryConteiner.prepend(createCard(item));
   closePopup(popupAdd);
   const formValidator = new FormValidator(validationConfig,popupAdd);
   formValidator.resetButtonInactive(buttonSubmitFormAdd);

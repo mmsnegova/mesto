@@ -17,7 +17,7 @@ export default class Card {
     return cardElement;
   }
 
-  _generateGalleryCard(){
+  generateGalleryCard(){
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.gallery__image');
     this._likeButton = this._element.querySelector('.gallery__like');
@@ -30,9 +30,9 @@ export default class Card {
     return this._element;
   }
 
-  renderGalleryCard (conteiner) {
+/*   renderGalleryCard (conteiner) {
     conteiner.prepend(this._generateGalleryCard());
-  }
+  } */
 
   _handleGallaryCardDelete () {
     this._element.remove();
@@ -42,11 +42,6 @@ export default class Card {
     this._likeButton.classList.toggle('gallery__like_active');
   }
 
-
-  _handleClosePopup() {
-
-    closePopup(popupView);
-  }
 
   _setEventListeners() {
     this._cardImage.addEventListener('click',()=>{
