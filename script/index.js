@@ -1,6 +1,5 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-//import {openPopup, closePopup} from './utils.js';
 
 const popupView = document.querySelector('.popup_view');
 const buttonClosePopupView = popupView.querySelector('.popup__close');
@@ -47,17 +46,7 @@ function createCard(data){
   return cardElement;
 }
 
-
 const galleryConteiner = document.querySelector('.gallery__list');
-const validationConfig = {
-  formSelector: '.popup__body',
-  inputElement: '.popup__input',
-  buttonElement: '.popup__save',
-  inactiveButtonClass: 'popup__save_inactive',
-  inputErrorClass: 'popup__input_error',
-  errorClass:'popup__input-error_active'
-}
-
 
 //создание массива с карточками
 function createArrayCards(){
@@ -74,7 +63,18 @@ function insertArrayCards(){
     galleryConteiner.appendChild(item);
   });
 };
+
 insertArrayCards();
+
+const validationConfig = {
+  formSelector: '.popup__body',
+  inputElement: '.popup__input',
+  buttonElement: '.popup__save',
+  inactiveButtonClass: 'popup__save_inactive',
+  inputErrorClass: 'popup__input_error',
+  errorClass:'popup__input-error_active'
+}
+
 
 const formValidators = {};
 
