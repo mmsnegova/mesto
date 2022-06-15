@@ -1,5 +1,6 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
 
 const popupView = document.querySelector('.popup_view');
 const buttonClosePopupView = popupView.querySelector('.popup__close');
@@ -39,7 +40,7 @@ function handleCardClick(name, link){
 }
 
 
-//функция создания карточки
+//функция создания экземпляра класса Card
 function createCard(data){
   const card = new Card (data, '.gallery-template_type_default',handleCardClick);
   const cardElement = card.generateGalleryCard();
@@ -48,23 +49,20 @@ function createCard(data){
 
 const galleryConteiner = document.querySelector('.gallery__list');
 
-//создание массива с карточками
-function createArrayCards(){
-  const arrayCards = new Array();
-  initialCards.forEach((item)=>{
-    arrayCards.push(createCard(item));
-  });
-  return arrayCards;
-};
+//функция создания экземпляра класса Section
+function createSection(data){
+  const cardList = new Section({
+    items: data,
+    renderer: (card) => {
+      cardList.addItem(createCard(card));
+    }
+  }, galleryConteiner);
+  cardList.renderItems();
+}
 
-//вставка на страницу массива с карточками
-function insertArrayCards(){
-  createArrayCards().forEach((item)=>{
-    galleryConteiner.appendChild(item);
-  });
-};
+//отрисовка карточек массива
+createSection(initialCards);
 
-insertArrayCards();
 
 const validationConfig = {
   formSelector: '.popup__body',
@@ -135,11 +133,12 @@ const handleOpenPopupAdd = ()=>{
 }
 const handleAddCardFormSubmit = (evt)=> {
   evt.preventDefault();
-  const item = {
+  const item = [{
     name: namePlaceInpute.value,
     link: linkInput.value
-  }
-  galleryConteiner.prepend(createCard(item));
+  }]
+  //отрисовка новой карточки
+  createSection(item);
   closePopup(popupAdd);
   formValidators[formAdd.getAttribute('name')].resetButtonInactive(buttonSubmitFormAdd);
   };
