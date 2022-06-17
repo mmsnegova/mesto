@@ -2,6 +2,7 @@ import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import Section from './Section.js';
 import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 
 /* const popupView = document.querySelector('.popup_view');
 const buttonClosePopupView = popupView.querySelector('.popup__close');
@@ -34,10 +35,13 @@ const closePopup = (popup) => {
 
 //функция с данными карточки
 function handleCardClick(name, link){
-  imagePopupView.src=link;
+  const popupView = new PopupWithImage(name, link,'.popup_view');
+  popupView.open();
+  popupView.setEventListeners();
+  /* imagePopupView.src=link;
   imagePopupView.alt=name;
-  subtitlePopupView.textContent=name;
-  openPopup(popupView);
+  subtitlePopupView.textContent=name; */
+  /* openPopup(popupView); */
 }
 
 
@@ -152,14 +156,14 @@ const buttonSubmitFormAdd = formAdd.querySelector('.popup__save');
 const buttonOpenPopupEdit = document.querySelector('.profile__edit')
 const formEdit = new Popup('.popup_edit');
 buttonOpenPopupEdit.addEventListener('click', ()=>{
-  formEdit.openPopup()
+  formEdit.open();
 });
 formEdit.setEventListeners();
 
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const formAdd = new Popup('.popup_edit');
 buttonOpenPopupAdd.addEventListener('click',()=>{
-  formAdd.openPopup()
+  formAdd.open();
 });
 formAdd.setEventListeners();
 
