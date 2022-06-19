@@ -1,9 +1,9 @@
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import UserInfo from './UserInfo.js';
-import PopupWithForm from './PopupWithForm.js';
+import Card from './components/Card.js';
+import FormValidator from './components/FormValidator.js';
+import Section from './components/Section.js';
+import PopupWithImage from './components/PopupWithImage.js';
+import UserInfo from './components/UserInfo.js';
+import PopupWithForm from './components/PopupWithForm.js';
 
 //функция с данными карточки
 function handleCardClick(name, link){
@@ -70,15 +70,16 @@ const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
     userInfo.setUserInfo(formData);
     popupEdit.close();
+    formValidators[popupEdit.form.getAttribute('name')].resetButtonInactive(popupEdit.buttonSubmit);
   }
 });
 popupEdit.setEventListeners();
 
 buttonOpenPopupEdit.addEventListener('click', ()=>{
   popupEdit.setInputValue(userInfo.getUserInfo());
+  popupEdit.open();
   formValidators[popupEdit.form.getAttribute('name')].resetValidation(popupEdit.getInputList());
   formValidators[popupEdit.form.getAttribute('name')].resetButtonActive(popupEdit.buttonSubmit);
-  popupEdit.open();
 });
 
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
@@ -90,8 +91,8 @@ const popupAdd = new PopupWithForm('.popup_add',{
   }  
 });
 buttonOpenPopupAdd.addEventListener('click',()=>{
-  formValidators[popupAdd.form.getAttribute('name')].resetValidation(popupAdd.getInputList());
   popupAdd.open();
+  formValidators[popupAdd.form.getAttribute('name')].resetValidation(popupAdd.getInputList());
 });
 popupAdd.setEventListeners();
 
