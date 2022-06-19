@@ -4,6 +4,7 @@ import Section from './components/Section.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import UserInfo from './components/UserInfo.js';
 import PopupWithForm from './components/PopupWithForm.js';
+import {initialCards} from './cards.js'
 
 //функция с данными карточки
 function handleCardClick(name, link){
