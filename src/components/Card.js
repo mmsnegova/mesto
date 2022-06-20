@@ -30,6 +30,7 @@ export default class Card {
 
   _handleGallaryCardDelete () {
     this._element.remove();
+    this._element = null;
   };
 
   _handleGallaryCardLike () {
