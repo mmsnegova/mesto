@@ -75,7 +75,7 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
   popupEdit.setInputValue(userInfo.getUserInfo());
   popupEdit.open();
   formValidators[popupEdit.form.getAttribute('name')].resetValidation();
-  formValidators[popupEdit.form.getAttribute('name')].resetButtonActive(popupEdit.buttonSubmit);
+  formValidators[popupEdit.form.getAttribute('name')].resetButtonActive();
 });
 
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
