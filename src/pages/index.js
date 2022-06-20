@@ -74,7 +74,7 @@ popupEdit.setEventListeners();
 buttonOpenPopupEdit.addEventListener('click', ()=>{
   popupEdit.setInputValue(userInfo.getUserInfo());
   popupEdit.open();
-  formValidators[popupEdit.form.getAttribute('name')].resetValidation(popupEdit.getInputList());
+  formValidators[popupEdit.form.getAttribute('name')].resetValidation();
   formValidators[popupEdit.form.getAttribute('name')].resetButtonActive(popupEdit.buttonSubmit);
 });
 
@@ -88,7 +88,7 @@ const popupAdd = new PopupWithForm('.popup_add',{
 });
 buttonOpenPopupAdd.addEventListener('click',()=>{
   popupAdd.open();
-  formValidators[popupAdd.form.getAttribute('name')].resetValidation(popupAdd.getInputList());
+  formValidators[popupAdd.form.getAttribute('name')].resetValidation();
 });
 popupAdd.setEventListeners();
 
