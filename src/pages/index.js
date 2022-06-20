@@ -66,7 +66,7 @@ const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
     userInfo.setUserInfo(formData);
     popupEdit.close();
-    formValidators[popupEdit.form.getAttribute('name')].resetButtonInactive(popupEdit.buttonSubmit);
+    formValidators[popupEdit.form.getAttribute('name')].resetButtonInactive();
   }
 });
 popupEdit.setEventListeners();
@@ -83,7 +83,7 @@ const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
     cardList.addItem(createCard(formData));
     popupAdd.close();
-    formValidators[popupAdd.form.getAttribute('name')].resetButtonInactive(popupAdd.buttonSubmit);
+    formValidators[popupAdd.form.getAttribute('name')].resetButtonInactive();
   }  
 });
 buttonOpenPopupAdd.addEventListener('click',()=>{
