@@ -66,7 +66,7 @@ const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
     userInfo.setUserInfo(formData);
     popupEdit.close();
-    formValidators[popupEdit.form.getAttribute('name')].resetButtonInactive();
+    formValidators[popupEdit.getNameForm()].resetButtonInactive();
   }
 });
 popupEdit.setEventListeners();
@@ -74,8 +74,8 @@ popupEdit.setEventListeners();
 buttonOpenPopupEdit.addEventListener('click', ()=>{
   popupEdit.setInputValue(userInfo.getUserInfo());
   popupEdit.open();
-  formValidators[popupEdit.form.getAttribute('name')].resetValidation();
-  formValidators[popupEdit.form.getAttribute('name')].resetButtonActive();
+  formValidators[popupEdit.getNameForm()].resetValidation();
+  formValidators[popupEdit.getNameForm()].resetButtonActive();
 });
 
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
@@ -83,12 +83,12 @@ const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
     cardList.addItem(createCard(formData));
     popupAdd.close();
-    formValidators[popupAdd.form.getAttribute('name')].resetButtonInactive();
+    formValidators[popupAdd.getNameForm()].resetButtonInactive();
   }  
 });
 buttonOpenPopupAdd.addEventListener('click',()=>{
   popupAdd.open();
-  formValidators[popupAdd.form.getAttribute('name')].resetValidation();
+  formValidators[popupAdd.getNameForm()].resetValidation();
 });
 popupAdd.setEventListeners();
 
