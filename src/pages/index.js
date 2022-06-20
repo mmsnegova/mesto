@@ -8,10 +8,12 @@ import {initialCards} from '../utils/cards.js';
 import './index.css';
 
 //функция с данными карточки
+
+const popupView = new PopupWithImage('.popup_view');
+popupView.setEventListeners();
+
 function handleCardClick(name, link){
-  const popupView = new PopupWithImage(name, link,'.popup_view');
-  popupView.open();
-  popupView.setEventListeners();
+  popupView.open(name, link);
 }
 
 
