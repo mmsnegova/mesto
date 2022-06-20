@@ -44,7 +44,7 @@ const formValidators = {};
 function  enableValidation(config) {
   const formList = Array.from(document.querySelectorAll(config.formSelector))
   formList.forEach((formElement) => {
-    const validator = new FormValidator(config, formElement)
+    const validator = new FormValidator(config, formElement);
 // получаем данные из атрибута `name` у формы
     const formName = formElement.getAttribute('name');
    // вот тут в объект записываем под именем формы
