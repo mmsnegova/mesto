@@ -24,15 +24,13 @@ function createCard(data){
   return cardElement;
 }
 
-const galleryConteiner = document.querySelector('.gallery__list');
-
 //создание экземпляра класса Section
 const cardList = new Section({
   items: initialCards,
   renderer: (card) => {
     cardList.addItem(createCard(card));
   }
-}, galleryConteiner);
+}, '.gallery__list');
 cardList.renderItems();
 
 
