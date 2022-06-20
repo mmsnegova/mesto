@@ -5,6 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import {initialCards} from '../utils/cards.js';
+import {validationConfig} from '../utils/constans.js';
 import './index.css';
 
 //функция с данными карточки

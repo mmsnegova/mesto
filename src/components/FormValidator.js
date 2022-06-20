@@ -78,8 +78,8 @@ export default class FormValidator {
       this._hideError(input))
   }
 
-  resetButtonInactive(buttonElement){
-    this._makeButtonInactive(buttonElement);
+  resetButtonInactive(){
+    this._makeButtonInactive(this._buttonElement);
   }
 
   resetButtonActive(buttonElement){
