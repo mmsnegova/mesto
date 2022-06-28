@@ -1,3 +1,5 @@
+
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -8,35 +10,77 @@ import {initialCards} from '../utils/cards.js';
 import {validationConfig} from '../utils/constans.js';
 import './index.css';
 
-//функция с данными карточки
-
-const popupView = new PopupWithImage('.popup_view');
-popupView.setEventListeners();
-
-function handleCardClick(name, link){
-  popupView.open(name, link);
-}
 
 
-//функция создания экземпляра класса Card
-function createCard(data){
-  const card = new Card (data, '.gallery-template_type_default',handleCardClick);
-  const cardElement = card.generateGalleryCard();
-  return cardElement;
-}
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
+  headers: {
+    authorization: '6858ce5a-0ca5-4508-bf3e-e6a0c057ab0d',
+    'Content-Type': 'application/json'
+  } 
+});
 
-//создание экземпляра класса Section
-const cardList = new Section({
-  items: initialCards,
-  renderer: (card) => {
-    cardList.addItem(createCard(card));
+
+//запрос данных пользователя
+/* fetch('https://mesto.nomoreparties.co/v1/cohort-44/users/me', {
+  method: 'GET',
+  headers: {
+    authorization: '6858ce5a-0ca5-4508-bf3e-e6a0c057ab0d'
   }
-}, '.gallery__list');
-cardList.renderItems();
+})
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err)=>{
+    console.log(err);
+  }) */
 
 
+  //получение карточек с сервера
+  fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards', {
+  method: 'GET',
+  headers: {
+    authorization: '6858ce5a-0ca5-4508-bf3e-e6a0c057ab0d'
+  }
+})
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+  .then((cards) => {
+    //функция с данными карточки
+    const popupView = new PopupWithImage('.popup_view');
+    popupView.setEventListeners();
+    function handleCardClick(name, link){
+      popupView.open(name, link);
+    }
 
-
+    //функция создания экземпляра класса Card
+    function createCard(data){
+      const card = new Card (data, '.gallery-template_type_default',handleCardClick);
+      const cardElement = card.generateGalleryCard();
+      return cardElement;
+    }
+    //создание экземпляра класса Section
+    const cardList = new Section({
+      items: cards,
+      renderer: (card) => {
+        cardList.addItem(createCard(card));
+      }
+    }, '.gallery__list');
+    cardList.renderItems();
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 
 const formValidators = {};
 
