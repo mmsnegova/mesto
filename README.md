@@ -29,3 +29,7 @@
 * ООП
 * DOM
 * Webpack
+
+**Публикация проекта**
+
+Проект опубликован на [GitHub Pages](https://mmsnegova.github.io/mesto/).
