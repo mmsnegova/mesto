@@ -2,6 +2,7 @@ export default class Card {
   constructor(data,cardSelector,handleCardClick){
     this._name=data.name;
     this._link=data.link;
+    this._likes = data.likes;
     this._cardSelector=cardSelector;
     this._handleCardClick=handleCardClick;
   };
@@ -20,10 +21,12 @@ export default class Card {
     this._cardImage = this._element.querySelector('.gallery__image');
     this._likeButton = this._element.querySelector('.gallery__like');
     this._deleteButton = this._element.querySelector('.gallery__delete');
-    this._cardTitle = this._element.querySelector('.gallery__title')
+    this._cardTitle = this._element.querySelector('.gallery__title');
+    this._cardLikes =this._element.querySelector('.gallery__number-like');
     this._cardTitle.textContent = this._name;
     this._cardImage.alt = this._name;
     this._cardImage.src = this._link;
+    this._cardLikes.textContent = this._likes.length;
     this._setEventListeners();
     return this._element;
   };

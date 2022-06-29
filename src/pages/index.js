@@ -25,37 +25,37 @@ const userInfo = new UserInfo({
   about: '.profile__about'
 });
 
+//функция создания экземпляра класса Card
+function createCard(data){
+      const card = new Card (data, '.gallery-template_type_default',handleCardClick);
+      const cardElement = card.generateGalleryCard();
+      return cardElement;
+    }
+
 //запрос данных пользователя
 api.getInfo()
   .then((data) => {
     userInfo.setUserInfo(data);
   })
 
+//функция с данными карточки
+  const popupView = new PopupWithImage('.popup_view');
+  popupView.setEventListeners();
+  function handleCardClick(name, link){
+    popupView.open(name, link);
+  }
 
-  //получение карточек с сервера
+//получение карточек с сервера
+
+const cardList = new Section({
+    renderer: (card) => {
+      cardList.addItem(createCard(card));
+    }
+  }, '.gallery__list');
+
 api.getCards()
   .then((cards) => {
-    //функция с данными карточки
-    const popupView = new PopupWithImage('.popup_view');
-    popupView.setEventListeners();
-    function handleCardClick(name, link){
-      popupView.open(name, link);
-    }
-
-    //функция создания экземпляра класса Card
-    function createCard(data){
-      const card = new Card (data, '.gallery-template_type_default',handleCardClick);
-      const cardElement = card.generateGalleryCard();
-      return cardElement;
-    }
-    //создание экземпляра класса Section
-    const cardList = new Section({
-      items: cards,
-      renderer: (card) => {
-        cardList.addItem(createCard(card));
-      }
-    }, '.gallery__list');
-    cardList.renderItems();
+    cardList.renderItems(cards);
   })
   
 
@@ -101,7 +101,11 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
-    cardList.addItem(createCard(formData));
+    api.createCard(formData)
+    .then(res =>{
+      cardList.addItem(createCard(res));
+    }
+      )
     popupAdd.close();
     formValidators[popupAdd.getNameForm()].resetButtonInactive();
   }  

@@ -36,6 +36,7 @@ export default class Api{
             console.log(err);
         })
     }
+
     getCards(){
         return fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards', {
             method: 'GET',
@@ -51,5 +52,24 @@ export default class Api{
             console.log(err);
         })
     }
+
+    createCard(data){
+        return fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards',{
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+
 
 }
