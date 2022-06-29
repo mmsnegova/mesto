@@ -71,5 +71,22 @@ export default class Api{
     }
 
 
+    deleteCard(id){
+        return fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards/${id} `,{
+            method: 'DELETE',
+            headers: this._headers,
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+
 
 }

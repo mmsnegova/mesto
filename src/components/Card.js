@@ -1,10 +1,14 @@
 export default class Card {
-  constructor(data,cardSelector,handleCardClick){
+  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo){
     this._name=data.name;
     this._link=data.link;
+    this._id = data._id;
+    this._owner = data.owner;
     this._likes = data.likes;
     this._cardSelector=cardSelector;
     this._handleCardClick=handleCardClick;
+    this._popupWithConformation = popupWithConformation;
+    this._userId=userInfo._id;
   };
 
   _getTemplate(){
@@ -21,6 +25,9 @@ export default class Card {
     this._cardImage = this._element.querySelector('.gallery__image');
     this._likeButton = this._element.querySelector('.gallery__like');
     this._deleteButton = this._element.querySelector('.gallery__delete');
+    if(this._owner._id!==this._userId){
+      this._deleteButton.remove();
+    }
     this._cardTitle = this._element.querySelector('.gallery__title');
     this._cardLikes =this._element.querySelector('.gallery__number-like');
     this._cardTitle.textContent = this._name;
@@ -32,8 +39,8 @@ export default class Card {
   };
 
   _handleGallaryCardDelete () {
-    this._element.remove();
-    this._element = null;
+    this._popupWithConformation.setEventListeners(this._element, this._id);
+    this._popupWithConformation.open();
   };
 
   _handleGallaryCardLike () {

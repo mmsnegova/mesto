@@ -6,8 +6,8 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import {initialCards} from '../utils/cards.js';
 import {validationConfig} from '../utils/constans.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import './index.css';
 
 
@@ -25,9 +25,18 @@ const userInfo = new UserInfo({
   about: '.profile__about'
 });
 
+//функция с данными карточки
+const popupView = new PopupWithImage('.popup_view');
+popupView.setEventListeners();
+function handleCardClick(name, link){
+  popupView.open(name, link);
+}
+
+const popupWithConfirmation = new PopupWithConfirmation('.popup_with-conformation', api);
+
 //функция создания экземпляра класса Card
 function createCard(data){
-      const card = new Card (data, '.gallery-template_type_default',handleCardClick);
+      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo());
       const cardElement = card.generateGalleryCard();
       return cardElement;
     }
@@ -38,18 +47,12 @@ api.getInfo()
     userInfo.setUserInfo(data);
   })
 
-//функция с данными карточки
-  const popupView = new PopupWithImage('.popup_view');
-  popupView.setEventListeners();
-  function handleCardClick(name, link){
-    popupView.open(name, link);
-  }
-
+ 
 //получение карточек с сервера
 
 const cardList = new Section({
     renderer: (card) => {
-      cardList.addItem(createCard(card));
+      cardList.addItemAppend(createCard(card));
     }
   }, '.gallery__list');
 
@@ -84,7 +87,6 @@ const popupEdit = new PopupWithForm('.popup_edit',{
     .then(res => 
       userInfo.setUserInfo(res)
     )
-    
     popupEdit.close();
     formValidators[popupEdit.getNameForm()].resetButtonInactive();
   }
@@ -103,7 +105,7 @@ const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
     api.createCard(formData)
     .then(res =>{
-      cardList.addItem(createCard(res));
+      cardList.addItemPrepend(createCard(res));
     }
       )
     popupAdd.close();
