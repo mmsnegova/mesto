@@ -22,7 +22,7 @@ const api = new Api({
 
 const userInfo = new UserInfo({
   name: '.profile__name',
-  about: '.profile__job'
+  about: '.profile__about'
 });
 
 //запрос данных пользователя
@@ -76,12 +76,15 @@ function  enableValidation(config) {
 
 enableValidation(validationConfig);
 
-
-
 const buttonOpenPopupEdit = document.querySelector('.profile__edit')
+
 const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
-    userInfo.setUserInfo(formData);
+    api.patchUserInfo(formData)
+    .then(res => 
+      userInfo.setUserInfo(res)
+    )
+    
     popupEdit.close();
     formValidators[popupEdit.getNameForm()].resetButtonInactive();
   }
