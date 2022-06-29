@@ -20,41 +20,20 @@ const api = new Api({
   } 
 });
 
+const userInfo = new UserInfo({
+  name: '.profile__name',
+  about: '.profile__job'
+});
 
 //запрос данных пользователя
-/* fetch('https://mesto.nomoreparties.co/v1/cohort-44/users/me', {
-  method: 'GET',
-  headers: {
-    authorization: '6858ce5a-0ca5-4508-bf3e-e6a0c057ab0d'
-  }
-})
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+api.getInfo()
+  .then((data) => {
+    userInfo.setUserInfo(data);
   })
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err)=>{
-    console.log(err);
-  }) */
 
 
   //получение карточек с сервера
-  fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards', {
-  method: 'GET',
-  headers: {
-    authorization: '6858ce5a-0ca5-4508-bf3e-e6a0c057ab0d'
-  }
-})
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+api.getCards()
   .then((cards) => {
     //функция с данными карточки
     const popupView = new PopupWithImage('.popup_view');
@@ -78,9 +57,7 @@ const api = new Api({
     }, '.gallery__list');
     cardList.renderItems();
   })
-  .catch((err)=>{
-    console.log(err);
-  })
+  
 
 const formValidators = {};
 
@@ -99,10 +76,6 @@ function  enableValidation(config) {
 
 enableValidation(validationConfig);
 
-const userInfo = new UserInfo({
-    name: '.profile__name',
-    job: '.profile__job'
-  });
 
 
 const buttonOpenPopupEdit = document.querySelector('.profile__edit')
