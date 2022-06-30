@@ -35,7 +35,6 @@ export default class Card {
 
     if(this._likes.some(user => user._id === this._userId)){
       this._likeButton.classList.add('gallery__like_active');
-      console.log('true');
     }
     this._cardTitle.textContent = this._name;
     this._cardImage.alt = this._name;
@@ -51,22 +50,21 @@ export default class Card {
   };
 
   _handleGallaryCardLike() {
-    /* if(!this._likeButton.classList.contains('gallery__like_active')){ */
+    if(!this._likeButton.classList.contains('gallery__like_active')){
       this._api.putLike(this._id, this._userInfo)
       .then(((res)=>{
         this._likeButton.classList.add('gallery__like_active');
         this._cardLikes.textContent = res.likes.length;
       }))
-    /* } */
-   /*  else {
-      this._api.deleteLike(this._id)
-      .then((res=>{
+    }
+    else {
+      this._api.deleteLike(this._id, this._userInfo)
+      .then((res)=>{
         this._likeButton.classList.remove('gallery__like_active');
-        this._likes.push(res);
-        this._cardLikes.textContent = this._likes.length;
-      }))
+        this._cardLikes.textContent = res.likes.length;
+      })
 
-    } */
+    }
     
   };
 
