@@ -22,7 +22,8 @@ const api = new Api({
 
 const userInfo = new UserInfo({
   name: '.profile__name',
-  about: '.profile__about'
+  about: '.profile__about',
+  avatar: '.profile__avatar'
 });
 
 //функция с данными карточки
@@ -100,6 +101,27 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
   formValidators[popupEdit.getNameForm()].resetButtonActive();
 });
 
+const buttonOpenPopupUdateAvatar = document.querySelector('.profile__update-avatar');
+const popupUpdateAvatar = new PopupWithForm('.popup_update-avatar',{
+  handleFormSubmit: (formData) =>{
+    api.patchAvatar(formData)
+    .then(res => 
+      userInfo.setUserInfo(res)
+    )
+    popupUpdateAvatar.close();
+    formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
+  }  
+});
+
+buttonOpenPopupUdateAvatar.addEventListener('click', ()=>{
+  popupUpdateAvatar.setInputValue(userInfo.getUserInfo());
+  popupUpdateAvatar.open();
+  formValidators[popupUpdateAvatar.getNameForm()].resetValidation();
+  formValidators[popupUpdateAvatar.getNameForm()].resetButtonActive();
+});
+popupUpdateAvatar.setEventListeners();
+
+
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
@@ -112,9 +134,14 @@ const popupAdd = new PopupWithForm('.popup_add',{
     formValidators[popupAdd.getNameForm()].resetButtonInactive();
   }  
 });
+
 buttonOpenPopupAdd.addEventListener('click',()=>{
   popupAdd.open();
   formValidators[popupAdd.getNameForm()].resetValidation();
 });
 popupAdd.setEventListeners();
+
+
+
+
 
