@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo){
+  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo, api){
     this._name=data.name;
     this._link=data.link;
     this._id = data._id;
@@ -8,7 +8,9 @@ export default class Card {
     this._cardSelector=cardSelector;
     this._handleCardClick=handleCardClick;
     this._popupWithConformation = popupWithConformation;
+    this._userInfo=userInfo;
     this._userId=userInfo._id;
+    this._api = api;
   };
 
   _getTemplate(){
@@ -30,6 +32,11 @@ export default class Card {
     }
     this._cardTitle = this._element.querySelector('.gallery__title');
     this._cardLikes =this._element.querySelector('.gallery__number-like');
+
+    if(this._likes.some(user => user._id === this._userId)){
+      this._likeButton.classList.add('gallery__like_active');
+      console.log('true');
+    }
     this._cardTitle.textContent = this._name;
     this._cardImage.alt = this._name;
     this._cardImage.src = this._link;
@@ -43,8 +50,24 @@ export default class Card {
     this._popupWithConformation.open();
   };
 
-  _handleGallaryCardLike () {
-    this._likeButton.classList.toggle('gallery__like_active');
+  _handleGallaryCardLike() {
+    /* if(!this._likeButton.classList.contains('gallery__like_active')){ */
+      this._api.putLike(this._id, this._userInfo)
+      .then(((res)=>{
+        this._likeButton.classList.add('gallery__like_active');
+        this._cardLikes.textContent = res.likes.length;
+      }))
+    /* } */
+   /*  else {
+      this._api.deleteLike(this._id)
+      .then((res=>{
+        this._likeButton.classList.remove('gallery__like_active');
+        this._likes.push(res);
+        this._cardLikes.textContent = this._likes.length;
+      }))
+
+    } */
+    
   };
 
 

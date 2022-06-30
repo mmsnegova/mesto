@@ -36,7 +36,7 @@ const popupWithConfirmation = new PopupWithConfirmation('.popup_with-conformatio
 
 //функция создания экземпляра класса Card
 function createCard(data){
-      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo());
+      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo(), api);
       const cardElement = card.generateGalleryCard();
       return cardElement;
     }

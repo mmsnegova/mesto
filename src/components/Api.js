@@ -87,6 +87,38 @@ export default class Api{
         })
     }
 
+    putLike(id, data){
+        return fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards/${id}/likes `,{
+            method: 'PUT',
+            headers: this._headers,
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+    deleteLike(id){
+        return fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards/${id}/likes `,{
+            method: 'DELETE',
+            headers: this._headers,
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
 
 
 }
