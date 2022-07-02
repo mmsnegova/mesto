@@ -8,3 +8,15 @@
   top: 30px;
   left: 0;
 }
+
+.popup__body .input-container:first-of-type .popup__input-error {
+  top: calc(54px+30px);
+}
+
+
+
+@media (max-width: 767px){
+  .popup__body .input-container:first-of-type .popup__input-error {
+    top: calc(75px+30px);
+  }
+}
