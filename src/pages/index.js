@@ -40,11 +40,23 @@ const popupWithConfirmation = new PopupWithConfirmation('.popup_with-conformatio
 
 //функция создания экземпляра класса Card
 function createCard(data){
-      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo(), api);
+      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo(), {
+        handleGallaryCardLike: (id, userInfo)=>{
+          if(!card.checkLikeUser()){
+            api.putLike(id, userInfo)
+            .then((res)=>card.putLike(res))
+            .catch((err)=>api.handleError(err))
+          }
+          else{
+            api.deleteLike(id, userInfo)
+            .then((res)=>card.deleteLike(res))
+            .catch((err)=>api.handleError(err))
+          }
+          }
+        })
       const cardElement = card.generateGalleryCard();
       return cardElement;
-    }
-
+      };
  
 const cardList = new Section({
     renderer: (card) => {
@@ -74,15 +86,15 @@ const buttonOpenPopupEdit = document.querySelector('.profile__edit')
 
 const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
-    popupEdit.renderLoading(true);
+    popupEdit.renderLoading(true)
     api.patchUserInfo(formData)
     .then(res => {
-      popupEdit.renderLoading(false);
       userInfo.setUserInfo(res)
       popupEdit.close();
       formValidators[popupEdit.getNameForm()].resetButtonInactive();
     })
     .catch((err)=>api.handleError(err))
+    .finally(()=>popupEdit.renderLoading(false))
   }
 });
 popupEdit.setEventListeners();
@@ -97,15 +109,15 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
 const buttonOpenPopupUdateAvatar = document.querySelector('.profile__update-avatar');
 const popupUpdateAvatar = new PopupWithForm('.popup_update-avatar',{
   handleFormSubmit: (formData) =>{
-    popupUpdateAvatar.renderLoading(true);
     api.patchAvatar(formData)
     .then(res => {
-      popupUpdateAvatar.renderLoading(false);
+      popupUpdateAvatar.renderLoading(true);
       userInfo.setUserInfo(res);
       popupUpdateAvatar.close();
       formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
     })
     .catch((err)=>api.handleError(err))
+    .finally(()=>popupUpdateAvatar.renderLoading(false))
   }  
 });
 
@@ -124,12 +136,12 @@ const popupAdd = new PopupWithForm('.popup_add',{
     popupAdd.renderLoading(true);
     api.createCard(formData)
     .then(res =>{
-      popupAdd.renderLoading(false);
       cardList.addItemPrepend(createCard(res));
       popupAdd.close();
-      formValidators[popupAdd.getNameForm()].resetButtonInactive();
     })
     .catch((err)=>api.handleError(err))
+    .finally(()=>popupAdd.renderLoading(false));
+    formValidators[popupAdd.getNameForm()].resetButtonInactive();
   }  
 });
 
@@ -152,10 +164,8 @@ Promise.all([
       })
       .catch((err)=>api.handleError(err))
 ])
-  .then(()=>{
-    hideLoader();
-  })
   .catch((err)=>api.handleError(err))
+  .finally(()=>hideLoader())
 
 
 

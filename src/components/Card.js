@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo, api){
+  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo, {handleGallaryCardLike}){
     this._name=data.name;
     this._link=data.link;
     this._id = data._id;
@@ -10,7 +10,7 @@ export default class Card {
     this._popupWithConformation = popupWithConformation;
     this._userInfo=userInfo;
     this._userId=userInfo._id;
-    this._api = api;
+    this._handleGallaryCardLike= handleGallaryCardLike;
   };
 
   _getTemplate(){
@@ -32,7 +32,6 @@ export default class Card {
     }
     this._cardTitle = this._element.querySelector('.gallery__title');
     this._cardLikes =this._element.querySelector('.gallery__number-like');
-
     if(this._likes.some(user => user._id === this._userId)){
       this._likeButton.classList.add('gallery__like_active');
     }
@@ -49,24 +48,22 @@ export default class Card {
     this._popupWithConformation.open();
   };
 
-  _handleGallaryCardLike() {
-    if(!this._likeButton.classList.contains('gallery__like_active')){
-      this._api.putLike(this._id, this._userInfo)
-      .then(((res)=>{
-        this._likeButton.classList.add('gallery__like_active');
-        this._cardLikes.textContent = res.likes.length;
-      }))
-    }
-    else {
-      this._api.deleteLike(this._id, this._userInfo)
-      .then((res)=>{
-        this._likeButton.classList.remove('gallery__like_active');
-        this._cardLikes.textContent = res.likes.length;
-      })
+  checkLikeUser(){
+    return this._likeButton.classList.contains('gallery__like_active');
+  }
 
-    }
-    
-  };
+  putLike(res){
+    this._likeButton.classList.add('gallery__like_active');
+    this._cardLikes.textContent = res.likes.length;
+  }
+
+  deleteLike(res){
+    this._likeButton.classList.remove('gallery__like_active');
+    this._cardLikes.textContent = res.likes.length;
+  }
+
+
+
 
 
   _setEventListeners() {
@@ -79,7 +76,7 @@ export default class Card {
     });
 
     this._likeButton.addEventListener('click', ()=> {
-      this._handleGallaryCardLike();
+      this._handleGallaryCardLike(this._id, this._userInfo);
     });
 
   };
