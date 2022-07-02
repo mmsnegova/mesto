@@ -44,3 +44,6 @@
 @import url(../blocks/popup/__figure/popup__figure.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__subtitle/popup__subtitle.css);
+@import url(../blocks/loader/loader.css);
+@import url(../blocks/loader/_hidden/loader_hidden.css);
+@import url(../blocks/loader/__spinner/loader__spinner.css);

@@ -6,14 +6,14 @@ export default class PopupWithConfirmation extends Popup{
         this._buttonConfirmation = this._popup.querySelector('.popup__save');
         this._api = api;
     }
-
+    
     _handleButtonConfirmation(element,id){
         this._api.deleteCard(id)
             .then(()=>{
                 element.remove();
                 element = null;
+                this.close();
             })
-        this.close();
     }
 
     setEventListeners(element,id){
@@ -23,5 +23,6 @@ export default class PopupWithConfirmation extends Popup{
         })
 
     }
+
 
 }

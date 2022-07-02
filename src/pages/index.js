@@ -1,4 +1,3 @@
-
 import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
@@ -10,8 +9,6 @@ import {validationConfig} from '../utils/constans.js';
 import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import './index.css';
 
-
-
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
   headers: {
@@ -19,6 +16,12 @@ const api = new Api({
     'Content-Type': 'application/json'
   } 
 });
+
+const loader = document.querySelector('.loader');
+
+const hideLoader = ()=>{
+    loader.classList.add('loader_hidden');
+}
 
 const userInfo = new UserInfo({
   name: '.profile__name',
@@ -42,26 +45,13 @@ function createCard(data){
       return cardElement;
     }
 
-//запрос данных пользователя
-api.getInfo()
-  .then((data) => {
-    userInfo.setUserInfo(data);
-  })
-
  
-//получение карточек с сервера
-
 const cardList = new Section({
     renderer: (card) => {
       cardList.addItemAppend(createCard(card));
     }
   }, '.gallery__list');
 
-api.getCards()
-  .then((cards) => {
-    cardList.renderItems(cards);
-  })
-  
 
 const formValidators = {};
 
@@ -84,12 +74,15 @@ const buttonOpenPopupEdit = document.querySelector('.profile__edit')
 
 const popupEdit = new PopupWithForm('.popup_edit',{
   handleFormSubmit:(formData)=>{
+    popupEdit.renderLoading(true);
     api.patchUserInfo(formData)
-    .then(res => 
+    .then(res => {
+      popupEdit.renderLoading(false);
       userInfo.setUserInfo(res)
-    )
-    popupEdit.close();
-    formValidators[popupEdit.getNameForm()].resetButtonInactive();
+      popupEdit.close();
+      formValidators[popupEdit.getNameForm()].resetButtonInactive();
+    })
+    .catch((err)=>api.handleError(err))
   }
 });
 popupEdit.setEventListeners();
@@ -104,12 +97,15 @@ buttonOpenPopupEdit.addEventListener('click', ()=>{
 const buttonOpenPopupUdateAvatar = document.querySelector('.profile__update-avatar');
 const popupUpdateAvatar = new PopupWithForm('.popup_update-avatar',{
   handleFormSubmit: (formData) =>{
+    popupUpdateAvatar.renderLoading(true);
     api.patchAvatar(formData)
-    .then(res => 
-      userInfo.setUserInfo(res)
-    )
-    popupUpdateAvatar.close();
-    formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
+    .then(res => {
+      popupUpdateAvatar.renderLoading(false);
+      userInfo.setUserInfo(res);
+      popupUpdateAvatar.close();
+      formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
+    })
+    .catch((err)=>api.handleError(err))
   }  
 });
 
@@ -125,13 +121,15 @@ popupUpdateAvatar.setEventListeners();
 const buttonOpenPopupAdd = document.querySelector('.profile__add');
 const popupAdd = new PopupWithForm('.popup_add',{
   handleFormSubmit: (formData) =>{
+    popupAdd.renderLoading(true);
     api.createCard(formData)
     .then(res =>{
+      popupAdd.renderLoading(false);
       cardList.addItemPrepend(createCard(res));
-    }
-      )
-    popupAdd.close();
-    formValidators[popupAdd.getNameForm()].resetButtonInactive();
+      popupAdd.close();
+      formValidators[popupAdd.getNameForm()].resetButtonInactive();
+    })
+    .catch((err)=>api.handleError(err))
   }  
 });
 
@@ -141,6 +139,23 @@ buttonOpenPopupAdd.addEventListener('click',()=>{
 });
 popupAdd.setEventListeners();
 
+
+Promise.all([
+  api.getInfo()
+    .then((data) => {
+      userInfo.setUserInfo(data);
+    })
+    .catch((err)=>api.handleError(err)),
+    api.getCards()
+      .then((cards) => {
+        cardList.renderItems(cards);
+      })
+      .catch((err)=>api.handleError(err))
+])
+  .then(()=>{
+    hideLoader();
+  })
+  .catch((err)=>api.handleError(err))
 
 
 
