@@ -31,9 +31,11 @@ export default class PopupWithForm extends Popup{
     renderLoading (isLoading){
         if (isLoading){
             this._buttonSubmit.textContent = 'Сохранение...';
+            this._buttonSubmit.classList.add('popup__save_update');
           }
           else {
             this._buttonSubmit.textContent = 'Сохранить';
+            this._buttonSubmit.classList.remove('popup__save_update');
           }
     }
 

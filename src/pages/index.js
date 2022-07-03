@@ -29,31 +29,55 @@ const userInfo = new UserInfo({
   avatar: '.profile__avatar'
 });
 
-//функция с данными карточки
+//функция создания модального окна просмотра карточек
 const popupView = new PopupWithImage('.popup_view');
 popupView.setEventListeners();
 function handleCardClick(name, link){
   popupView.open(name, link);
 }
 
-const popupWithConfirmation = new PopupWithConfirmation('.popup_with-conformation', api);
+//функция создания окна предупреждения
+const popupWithConfirmation = new PopupWithConfirmation('.popup_with-conformation');
+popupWithConfirmation.setEventListeners();
+
+
+function hendleButtonLikeCard(card, id, userInfo){
+  if(!card.checkLikeUser()){
+    api.putLike(id, userInfo)
+      .then((res)=>card.putLike(res))
+      .catch((err)=>api.handleError(err))
+    }
+  else{
+    api.deleteLike(id, userInfo)
+      .then((res)=>card.deleteLike(res))
+      .catch((err)=>api.handleError(err))}
+}
+
+function hendleButtonDeleteCard(card, cardID){
+  popupWithConfirmation.callBack(()=>{
+    api.deleteCard(cardID)
+    .then(()=>{
+      card.deleteCard();
+    })
+    .catch((err)=>api.handleError(err))
+    popupWithConfirmation.close()});
+    popupWithConfirmation.setEventListenerClickButton();
+    popupWithConfirmation.open();
+  }
 
 //функция создания экземпляра класса Card
 function createCard(data){
-      const card = new Card (data, '.gallery-template_type_default',handleCardClick, popupWithConfirmation, userInfo.getUserInfo(), {
-        handleGallaryCardLike: (id, userInfo)=>{
-          if(!card.checkLikeUser()){
-            api.putLike(id, userInfo)
-            .then((res)=>card.putLike(res))
-            .catch((err)=>api.handleError(err))
-          }
-          else{
-            api.deleteLike(id, userInfo)
-            .then((res)=>card.deleteLike(res))
-            .catch((err)=>api.handleError(err))
-          }
-          }
-        })
+      const card = new Card (
+        data, 
+        '.gallery-template_type_default',
+        handleCardClick, 
+        userInfo.getUserInfo(), 
+        {handleGallaryCardLike:
+          (id, userInfo)=>hendleButtonLikeCard(card, id, userInfo)
+        },
+        {handleButtonDeleteCard:(cardID)=>
+          hendleButtonDeleteCard(card, cardID)}
+        );
       const cardElement = card.generateGalleryCard();
       return cardElement;
       };
@@ -91,41 +115,41 @@ const popupEdit = new PopupWithForm('.popup_edit',{
     .then(res => {
       userInfo.setUserInfo(res)
       popupEdit.close();
-      formValidators[popupEdit.getNameForm()].resetButtonInactive();
     })
     .catch((err)=>api.handleError(err))
     .finally(()=>popupEdit.renderLoading(false))
+    formValidators[popupEdit.getNameForm()].resetButtonInactive()
   }
 });
 popupEdit.setEventListeners();
 
 buttonOpenPopupEdit.addEventListener('click', ()=>{
   popupEdit.setInputValue(userInfo.getUserInfo());
-  popupEdit.open();
   formValidators[popupEdit.getNameForm()].resetValidation();
   formValidators[popupEdit.getNameForm()].resetButtonActive();
+  popupEdit.open();
 });
 
 const buttonOpenPopupUdateAvatar = document.querySelector('.profile__update-avatar');
 const popupUpdateAvatar = new PopupWithForm('.popup_update-avatar',{
   handleFormSubmit: (formData) =>{
+    popupUpdateAvatar.renderLoading(true);
     api.patchAvatar(formData)
     .then(res => {
-      popupUpdateAvatar.renderLoading(true);
       userInfo.setUserInfo(res);
       popupUpdateAvatar.close();
-      formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
     })
     .catch((err)=>api.handleError(err))
     .finally(()=>popupUpdateAvatar.renderLoading(false))
+    formValidators[popupUpdateAvatar.getNameForm()].resetButtonInactive();
   }  
 });
 
 buttonOpenPopupUdateAvatar.addEventListener('click', ()=>{
   popupUpdateAvatar.setInputValue(userInfo.getUserInfo());
-  popupUpdateAvatar.open();
   formValidators[popupUpdateAvatar.getNameForm()].resetValidation();
   formValidators[popupUpdateAvatar.getNameForm()].resetButtonActive();
+  popupUpdateAvatar.open();
 });
 popupUpdateAvatar.setEventListeners();
 
@@ -146,8 +170,8 @@ const popupAdd = new PopupWithForm('.popup_add',{
 });
 
 buttonOpenPopupAdd.addEventListener('click',()=>{
-  popupAdd.open();
   formValidators[popupAdd.getNameForm()].resetValidation();
+  popupAdd.open();
 });
 popupAdd.setEventListeners();
 

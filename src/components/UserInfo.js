@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 
 export default class UserInfo{
     constructor({name, about, avatar}){

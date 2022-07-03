@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data,cardSelector,handleCardClick, popupWithConformation, userInfo, {handleGallaryCardLike}){
+  constructor(data,cardSelector,handleCardClick, userInfo, {handleGallaryCardLike}, {handleButtonDeleteCard}){
     this._name=data.name;
     this._link=data.link;
     this._id = data._id;
@@ -7,10 +7,10 @@ export default class Card {
     this._likes = data.likes;
     this._cardSelector=cardSelector;
     this._handleCardClick=handleCardClick;
-    this._popupWithConformation = popupWithConformation;
     this._userInfo=userInfo;
     this._userId=userInfo._id;
     this._handleGallaryCardLike= handleGallaryCardLike;
+    this._handleButtonDeleteCard = handleButtonDeleteCard;
   };
 
   _getTemplate(){
@@ -43,10 +43,10 @@ export default class Card {
     return this._element;
   };
 
-  _handleGallaryCardDelete () {
-    this._popupWithConformation.setEventListeners(this._element, this._id);
-    this._popupWithConformation.open();
-  };
+  deleteCard(){
+    this._element.remove(); 
+    this._element = null;
+  } 
 
   checkLikeUser(){
     return this._likeButton.classList.contains('gallery__like_active');
@@ -62,17 +62,13 @@ export default class Card {
     this._cardLikes.textContent = res.likes.length;
   }
 
-
-
-
-
   _setEventListeners() {
     this._cardImage.addEventListener('click',()=>{
       this._handleCardClick(this._name, this._link)
     });
 
     this._deleteButton.addEventListener('click', ()=> {
-      this._handleGallaryCardDelete();
+      this._handleButtonDeleteCard(this._id);
     });
 
     this._likeButton.addEventListener('click', ()=> {
