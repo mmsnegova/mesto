@@ -6,6 +6,16 @@ export default class PopupWithConfirmation extends Popup{
         this._buttonConfirmation = this._popup.querySelector('.popup__save');
     }
 
+
+    renderLoading (isLoading){
+        if (isLoading){
+            this._buttonConfirmation.textContent = 'Удаление...';
+          }
+          else {
+            this._buttonConfirmation.textContent = 'Да';
+          }
+    }
+
     callBack(handleButtonConfirmation){
         this._handleButtonConfirmation = handleButtonConfirmation;
     }
@@ -14,8 +24,7 @@ export default class PopupWithConfirmation extends Popup{
         this._buttonConfirmation.addEventListener('click',this._handleButtonConfirmation);
     }
 
-    close(){
-        super.close();
+    removeEventListenerClickButton(){
         this._buttonConfirmation.removeEventListener('click',this._handleButtonConfirmation);
     }
 }

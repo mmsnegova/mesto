@@ -55,12 +55,16 @@ function hendleButtonLikeCard(card, id, userInfo){
 
 function hendleButtonDeleteCard(card, cardID){
   popupWithConfirmation.callBack(()=>{
+    popupWithConfirmation.renderLoading(true);
     api.deleteCard(cardID)
     .then(()=>{
       card.deleteCard();
+      popupWithConfirmation.close();
     })
     .catch((err)=>api.handleError(err))
-    popupWithConfirmation.close()});
+    .finally(()=>popupWithConfirmation.renderLoading(false));
+    popupWithConfirmation.removeEventListenerClickButton();
+   });
     popupWithConfirmation.setEventListenerClickButton();
     popupWithConfirmation.open();
   }
