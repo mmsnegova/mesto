@@ -13,10 +13,11 @@
   line-height: 22px;
 }
 
-.popup__save:hover {
-  opacity: 0.8;
-}
-
+@media(hover: hover) and (pointer: fine) {
+  .popup__save:hover {
+    opacity: 0.6;
+  }
+ }
 @media (max-width: 767px) {
   .popup__save {
     padding-top: 14px;

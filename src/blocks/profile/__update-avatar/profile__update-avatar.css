@@ -19,6 +19,12 @@
     transition: opacity 0.3s ease;
 }
 
-.profile__update-avatar:hover {
-    opacity: 0.6;
+@media(hover: hover) and (pointer: fine) {
+    .profile__update-avatar:hover {
+      opacity: 0.6;
+    }
+}
+
+.profile__update-avatar:focus {
+  opacity: 0.6;
 }

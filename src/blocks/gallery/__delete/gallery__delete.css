@@ -17,6 +17,8 @@
   right: 20px;
 }
 
-.gallery__delete:hover {
-  opacity: 0.5;
-}
+@media(hover: hover) and (pointer: fine) {
+  .gallery__delete:hover {
+    opacity: 0.5;
+  }
+ }

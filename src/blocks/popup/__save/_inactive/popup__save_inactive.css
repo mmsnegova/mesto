@@ -5,6 +5,8 @@
   color: #C4C4C4;
 }
 
-.popup__save_inactive:hover {
-  opacity: 1;
-}
+@media(hover: hover) and (pointer: fine) {
+  .popup__save_inactive:hover {
+    opacity: 1;
+  }
+ }

@@ -12,10 +12,11 @@
   transition: opacity 0.3s ease;
 }
 
-.profile__add:hover {
-  opacity: 0.6;
-}
-
+@media(hover: hover) and (pointer: fine) {
+  .profile__add:hover {
+    opacity: 0.6;
+  }
+ }
 @media (max-width: 767px) {
   .profile__add {
     width: 100%;
